@@ -39,6 +39,33 @@ python src/script/activeCLFexperiment.py -c experiment_config.yaml
 The `experiment_config.yaml` needs to be adjusted depending on the needs of the cycle.
 In the following I will provide a couple of practical examples.
 
-### Running $Cycle0$
+### Running **Cycle**$_{0}$
 
-$Cycle0$  
+**Cycle**$_{0}$ refers to the initial cycle, where no information of the system is know.
+The aim is to search for an _interesting_ set of starting points to then exploit with an active learning strategy.
+
+```yaml
+experimentID: 'experimentXXX'
+cycleN: 0
+rngSeed: 73
+
+dataset: '../../dataset/DOE_experimentXXX.csv'
+targetVariable: 'Phase'
+
+validatedset:
+
+newBatch: 18
+
+clfModel: 
+kParam1: 
+kParam2: 
+
+acqMode: 
+entropyDecimals: 
+
+screeningSelection: 
+```
+
+### Running **Cycle**$_{1}$ and further **Cycles**
+
+To run **Cycle**$_{1}$ and further we require more information in the config file, as we need to search for new points and fit a classification model.
