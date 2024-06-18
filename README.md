@@ -80,7 +80,7 @@ rngSeed: 73
 dataset: '../../dataset/DOE_experimentXXX.csv'
 targetVariable: 'Phase'
 
-validatedset: ../cycle_0/experimentXXX_cycle1_validated_points.csv
+validatedset: ../cycle_0/experimentXXX_cycle0_validated_points.csv
 
 newBatch: 18
 
@@ -93,3 +93,12 @@ entropyDecimals: 2
 
 screeningSelection: 'FPS'
 ```
+
+The config contains all the necessary information to run a single cycle search of new points based on a previous knowledge of a phase diagram.
+The previous knowledge in this case is accounted by the argument:
+```yaml
+validatedset: ../cycle_0/experimentXXX_cycle0_validated_points.csv
+```
+that when specified merge validated (experimetally) points into the dataset.
+
+All the other arguments are either self-explanatory or they can be understood by following the implementation of the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier).
