@@ -31,12 +31,12 @@ Folder organization:
 
 ## Runnig the experiments
 
-To run the experiments the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier) package is required.
-The package allow to apply the point selection and classification strategies to an input dataset for each cycle.
+To run the experiments the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier) and the [CoacervsOpti](https://github.com/AGardinon/CoacervsOpti) packages are required.
+The first package allow to apply the point selection and classification strategies to an input dataset for each cycle and the second one is a wrapper to apply the active classification to the coacervate specific use cases.
 
-The general cycle is evaluated by running the `script.py` provided in the repository:
+The general cycle is evaluated by running the `script.py` provided in the repository [CoacervsOpti](https://github.com/AGardinon/CoacervsOpti):
 ```bash
-python src/script/activeCLFexperiment.py -c cycle_X_config.yaml
+python src/script/active_learning_cycle.py -c cycle_X_config.yaml
 ```
 The `experiment_config.yaml` needs to be adjusted depending on the needs of the cycle.
 In the following I will provide a couple of practical examples.
