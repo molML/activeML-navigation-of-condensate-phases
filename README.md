@@ -124,3 +124,15 @@ The routine contains the following steps:
 2.  experimental validation of the points (robot experiments)
 3.  update the validated points values in the master file (saved from p.1)
 4.  save the updated version of the master file, overwriting to the save version created in p.1 
+
+Appending data to the master file
+```bash
+python append_to_master.py -expID $EXPID -ncycle $NCYCLE
+```
+where `$EXPID, $NCYCLE` are two values that define the current experiment ID (as defined in the `FOLDERS_TREE`) and cycle number.
+
+To update the master file with validated points
+```bash
+python update_master.py -expID $EXPID -ncycle $NCYCLE -reference $REFERENCE
+```
+where `$REFERENCE` refers to a reference column key that is used to aplly the substitution, by default the `barcode`.
