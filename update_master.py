@@ -44,7 +44,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-expID', dest='expID', required=True, type=str, help='Experiment ID (as for the folders tree)')
     parser.add_argument('-ncycle', dest='ncycle', required=True, type=str, help='Cycle number.')
-    parser.add_argument('-reference', dest='reference', default='barcode', type=str, help='Reference column key for the update.')
+    parser.add_argument('-reference', dest='reference', default='Barcode', type=str, help='Reference column key for the update.')
     args = parser.parse_args()
     main(arguments=args)
 
