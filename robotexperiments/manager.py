@@ -98,7 +98,9 @@ class fileManager:
         
         # check for the existence of masterfile
         print('Checking for master files ...')
-        self.master_folder = get_files_from(folder=self.folders_tree['master_file'], 
+        self._format_prefix = MASTER_FILE_NAME_FORMAT.split('{}')[0]
+        self.master_folder = get_files_from(folder=self.folders_tree['master_file'],
+                                            sw=self._format_prefix, 
                                             verbose=False)
         print(f'Master files found:\n{self.master_folder}')
 
