@@ -1,0 +1,19 @@
+experimentID: 'asp200_lys100_NaCl_robotExp1'
+cycleN: 1
+rngSeed: 73
+
+dataset: '../../dataset/DOE_Asp200_Lys100_robotExp1_3Dim.csv'
+targetVariable: 'Phase'
+
+validatedset: '../cycle_0/asp200_lys100_NaCl_robotExp1_cycle0_validated_points_FAKEFORTEST.csv'
+
+newBatch: 18
+
+clfModel: 'GaussianProcessClassifier'
+kParam1: 1.0
+kParam2: 1.0
+
+acqMode: 'exploration'
+entropyDecimals: 2
+
+screeningSelection: 'FPS'
