@@ -45,7 +45,7 @@ this will recognize the file contained in the folder that follow the specific pr
 
 To create the dataframe containing the points to be screened by the algorithm we can run the script from the [CoacervsOpti](https://github.com/AGardinon/CoacervsOpti) repository:
 ```bash
-python src/script/experiment_init.py -c config.json
+python src/script/experiment_init.py -phasevar config.json
 ```
 
 ## Runnig the cycles
@@ -146,12 +146,12 @@ The routine contains the following steps:
 
 Appending data to the master file
 ```bash
-python append_to_master.py -expID $EXPID -ncycle $NCYCLE
+python append_to_master.py -expID robot001 -ncycle 0
 ```
 where `$EXPID, $NCYCLE` are two values that define the current experiment ID (as defined in the `FOLDERS_TREE`) and cycle number.
 
 To update the master file with validated points
 ```bash
-python update_master.py -expID $EXPID -ncycle $NCYCLE -reference $REFERENCE
+python update_master.py -expID robot001 -ncycle 0 -reference Barcode
 ```
-where `$REFERENCE` refers to a reference column key that is used to aplly the substitution, by default the `barcode`.
+where `$REFERENCE` refers to a reference column key that is used to aplly the substitution, by default the `Barcode` (dafault option).
