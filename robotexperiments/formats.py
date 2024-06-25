@@ -7,13 +7,13 @@ MASTER_FILE_COLUMNS = [
     'Conc_HEPES' ,
     'pH' ,
     'Conc_Dye_Cy5_AP_Lys100_(mM)' ,
-    'Conc_Monomer_Cy5_AP_Lys100_(mM)' ,
     'Plate_Barcode' ,
     'Plate_Position' ,
     'Preparation_Date' ,
     'Experiment_Code' ,
     'OpenT_Protocol' ,
-    'Volume' ,
+    'Mixing_Volume' ,
+    'Final_Volume'  ,
     'Barcode' ,
 ]
 

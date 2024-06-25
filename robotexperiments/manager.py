@@ -120,7 +120,7 @@ class fileManager:
             print(self.master_df.tail(10))
 
         self.master_file_version = len(self.master_folder)
-        pass
+        
 
     
     def append_data(self, new_data: pd.DataFrame, fill_value: Union[int,float,str]=None):
@@ -138,7 +138,7 @@ class fileManager:
         # fill in the blanks converting NaN to user defined value
         if fill_value is not None:
             self.master_df = self.master_df.fillna(fill_value)
-        pass
+        
     
 
     def update_data_values(self, 
@@ -171,7 +171,7 @@ class fileManager:
                                             values=reference_values)
         print(f'NEW (updated):\n{_new_df_tmp}')
         self.master_df = df_updated
-        pass
+        
 
 
     def save_file(self, overwrite: bool=False) -> None:
@@ -183,5 +183,5 @@ class fileManager:
             save_file_name = self.folders_tree['master_file']+self.master_file_name_format.format(self.master_file_version-1)
             print(f'File saved & overwritten on {save_file_name}')
         self.master_df.to_csv(save_file_name, index=False,)
-        pass
+        
 
