@@ -5,7 +5,7 @@ rngSeed: 73
 dataset: '../../dataset/DOE_Asp200_Lys100_robotExp1_3Dim.csv'
 targetVariable: 'Phase'
 
-validatedset: '../cycle_0/asp200_lys100_NaCl_robotExp1_cycle0_validated_points_FAKEFORTEST.csv'
+validatedset: '../cycle_0/asp200_lys100_NaCl_robotExp1_cycle0_validated_points.csv'
 
 newBatch: 18
 

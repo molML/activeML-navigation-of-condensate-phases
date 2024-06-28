@@ -22,6 +22,6 @@ GIT_REPO_PATH = '/home/andreag/Work/1.main_project/git_repo/'
 FOLDERS_TREE = {
     'master_file' : GIT_REPO_PATH+'RobotLabExperiments/master_file/',
     'experiments' : {
-        'robot001' : GIT_REPO_PATH+'RobotLabExperiments/experiments/1.Asp200_Lys100_robot/',
+        'robot001' : GIT_REPO_PATH+'RobotLabExperiments/experiments/1.Asp200_Lys100_robot_test/',
     }
 }
