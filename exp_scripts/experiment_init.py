@@ -70,7 +70,7 @@ def main(arguments):
         print(static_df.head())
 
     save_to_jason(dictonary=expvar_config,
-                  fout_name=save_dir+experiment_name+f'_config_file.json')    
+                  fout_name=save_dir+'exp_phasevar_config_file.json')    
 
     print('\n# END')
 
