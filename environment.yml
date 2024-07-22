@@ -1,0 +1,16 @@
+name: robotlab
+channels:
+  - defaults
+dependencies:
+  - python=3.12
+  - scikit-learn
+  - pip
+  - pip:
+    - numpy<2.0
+    - pandas
+    - matplotlib
+    - seaborn
+    - git+https://github.com/AGardinon/ActiveLearningCLassiFier.git@bed66c011b93effa821bfade2422b72975585348531
+
+    
+    
