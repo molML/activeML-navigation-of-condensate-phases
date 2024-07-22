@@ -11,7 +11,7 @@ import random
 import string
 import time
 import uuid
-import datetime
+from datetime import datetime
 import pandas as pd
 from types import SimpleNamespace
 from typing import Union, List
