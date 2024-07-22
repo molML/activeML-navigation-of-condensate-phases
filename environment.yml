@@ -1,16 +1,15 @@
-name: robotlab
+name: robotlab_test
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - python=3.12
+  - numpy<2.0
   - scikit-learn
+  - scipy
+  - pandas
+  - matplotlib
   - pip
   - pip:
-    - numpy<2.0
-    - pandas
-    - matplotlib
-    - seaborn
-    - git+https://github.com/AGardinon/ActiveLearningCLassiFier.git@bed66c011b93effa821bfade2422b72975585348531
-
-    
-    
+    - -e ../ActiveLearningCLassiFier/
+    - -e ./
