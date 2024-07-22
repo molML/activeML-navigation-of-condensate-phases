@@ -1,4 +1,4 @@
-name: robotlab_test
+name: robotlabExperiments
 channels:
   - conda-forge
   - defaults
@@ -9,8 +9,9 @@ dependencies:
   - scipy
   - pandas
   - matplotlib
+  - seaborn
   - pip
   - pip:
     - pyyaml
-    - -e ../ActiveLearningCLassiFier/
+    - ../ActiveLearningCLassiFier/
     - -e ./
