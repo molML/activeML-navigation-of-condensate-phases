@@ -15,6 +15,8 @@ from typing import Union, List
 from robotexperiments.dataManager import remove_columns
 from robotexperiments.utils import add_keyID_to_dataframe, save_to_jason
 
+from robotexperiments.formats import FOLDERS_TREE
+
 import activeclf as alclf
 from activeclf.learning import active_learning_cycle
 
@@ -32,6 +34,10 @@ def main(argument):
     # -
     # read the file and store it as a dict
     cycle_config = yaml.load(open(argument.config, 'r'), Loader=yaml.FullLoader)
+
+    experiment_name = cycle_config['experimentID']
+    cycle_number = cycle_config['cycleN']
+    cycle_output_dir = FOLDERS_TREE[experiment_name] + f'/cycles/cycle_{cycle_number}'
     
     # -
     # read the experiment information
@@ -54,7 +60,7 @@ def main(argument):
     # number of new points to sample
     new_batch = cycle_config['newBatch']
 
-    if cycle_config['cycleN'] == 0:
+    if cycle_number == 0:
 
         print('Cycle 0 assumes no points are known and the search space is completely unexplored.')
         print('The information about the acquisition funciton and the classifier will be skipped.')
@@ -63,11 +69,11 @@ def main(argument):
 
         new_idxs_al = alclf.acquisition.sampling_fps(X=data.X, n=new_batch)
 
-    elif cycle_config['cycleN'] > 0:
+    elif cycle_number > 0:
 
         print('\nSearching for new points in an active way ...')
 
-        if cycle_config['cycleN'] > 1 and cycle_config['validatedset'] is None:
+        if cycle_number > 1 and cycle_config['validatedset'] is None:
             raise ValueError('Validation dataframe not set, check config.yaml file!')
         # -
         # set up the classifier
@@ -128,24 +134,24 @@ def main(argument):
     
     # -
     # end of cycle saving variables
-    output_name = f'{cycle_config['experimentID']}_cycle{cycle_config['cycleN']}'
+    output_name = cycle_output_dir+f'{experiment_name}_cycle{cycle_number}'
     # saving files
     new_points_df.to_csv(output_name+f'_ouput_points.csv', index=False)
 
     np.savetxt(output_name+f'_ouput_points.ndx', new_points_df.index.tolist())
 
-    if cycle_config['cycleN'] > 0:
+    if cycle_number > 0:
         np.save(output_name+f'_ouput_points_pdf.npy', points_pdf)
 
     barcode_df.to_csv(output_name+f'_ouput_barcodes.csv', index=False)
 
-    if cycle_config['cycleN'] > 0:
+    if cycle_number > 0:
         joblib.dump(classifier_func.clf, output_name+f'_ouput_algorithm.pkl')
 
     save_to_jason(dictonary=cycle_config,
-                  fout_name=output_name+f'_config_file.json')
+                  fout_name=output_name+f'_config_file')
 
-    print(f'\n# End of Cycle {cycle_config['cycleN']}')
+    print(f'\n# End of Cycle {cycle_number}')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

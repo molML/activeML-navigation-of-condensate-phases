@@ -2,7 +2,7 @@ experimentID: 'experiment_name'
 cycleN: 0
 rngSeed:  # if empty -> None -> random seed else needs int
 
-dataset: 'path/to/your/validation_data.csv'
+dataset: 'path/to/your/dataset.csv'
 targetVariable: 'Phase'
 
 validatedset:

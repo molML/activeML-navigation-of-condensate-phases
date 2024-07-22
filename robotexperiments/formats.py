@@ -17,11 +17,11 @@ MASTER_FILE_COLUMNS = [
     'Barcode' ,
 ]
 
-GIT_REPO_PATH = '../'
+EXP_REPO_PATH = '../'
 
 FOLDERS_TREE = {
-    'master_file' : GIT_REPO_PATH+'/master_file/',
+    'master_file' : EXP_REPO_PATH+'/master_file/',
     'experiments' : {
-        'robot001' : GIT_REPO_PATH+'/experiments/1.Asp200_Lys100_robot_test/',
+        'robot001' : EXP_REPO_PATH+'/experiments/1.Asp200_Lys100_robot_test/',
     }
 }
