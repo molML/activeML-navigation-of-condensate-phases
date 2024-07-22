@@ -11,5 +11,6 @@ dependencies:
   - matplotlib
   - pip
   - pip:
+    - pyyaml
     - -e ../ActiveLearningCLassiFier/
     - -e ./
