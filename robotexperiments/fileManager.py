@@ -1,4 +1,11 @@
-#!
+# -------------------------------------------------- #
+# Helper functions and class to handle the files 
+# for the Coacervate optimization experiments.
+# eg. creating, updating, and appending to master file
+#
+#
+# AUTHOR: Andrea Gardin
+# -------------------------------------------------- #
 
 import os
 import re
