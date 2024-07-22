@@ -10,7 +10,7 @@ import argparse
 import pandas as pd
 
 import robotexperiments.dataManager as dm
-from robotexperiments.utils import parse_config
+from robotexperiments.utils import parse_config, save_to_jason
 
 # --- global configs
 
@@ -68,6 +68,9 @@ def main(arguments):
         static_df.to_csv(save_dir+"STATIC_"+experiment_name, index=False)
         print("\nSaving static experiment information ...")
         print(static_df.head())
+
+    save_to_jason(dictonary=expvar_config,
+                  fout_name=save_dir+experiment_name+f'_config_file.json')    
 
     print('\n# END')
 

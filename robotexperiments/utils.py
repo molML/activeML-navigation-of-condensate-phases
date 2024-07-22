@@ -11,6 +11,7 @@ import random
 import string
 import time
 import uuid
+import datetime
 import pandas as pd
 from types import SimpleNamespace
 from typing import Union, List
@@ -52,6 +53,19 @@ def parse_config(filename: str,
             return SimpleNamespace(**_config)
         else:
             return _config
+        
+
+# -------------------------------------------------- #
+# --- save dict to file .json
+
+def save_to_jason(dictonary: dict, fout_name: str) -> None:
+    timestamp = datetime.now().strftime('%b_%d_%Y-%H:%M:%S')
+    dictonary['execution'] = timestamp
+    with open(fout_name+'.json', 'w', encoding='utf-8') as f:
+        json.dump(dictonary, 
+                  f, 
+                  ensure_ascii=False, 
+                  indent=4)
         
 
 # -------------------------------------------------- #

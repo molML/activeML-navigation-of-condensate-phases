@@ -13,7 +13,7 @@ import pandas as pd
 from typing import Union, List
 
 from robotexperiments.dataManager import remove_columns
-from robotexperiments.utils import add_keyID_to_dataframe
+from robotexperiments.utils import add_keyID_to_dataframe, save_to_jason
 
 import activeclf as alclf
 from activeclf.learning import active_learning_cycle
@@ -141,6 +141,9 @@ def main(argument):
 
     if cycle_config['cycleN'] > 0:
         joblib.dump(classifier_func.clf, output_name+f'_ouput_algorithm.pkl')
+
+    save_to_jason(dictonary=cycle_config,
+                  fout_name=output_name+f'_config_file.json')
 
     print(f'\n# End of Cycle {cycle_config['cycleN']}')
 
