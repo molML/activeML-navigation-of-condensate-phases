@@ -9,8 +9,8 @@
 import argparse
 import pandas as pd
 
-import coacervateOpti.dataManager as dm
-from coacervateOpti.utils import parse_config
+import robotexperiments.dataManager as dm
+from robotexperiments.utils import parse_config
 
 # --- global configs
 

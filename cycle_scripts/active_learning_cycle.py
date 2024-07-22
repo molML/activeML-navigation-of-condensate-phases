@@ -12,8 +12,8 @@ import numpy as np
 import pandas as pd
 from typing import Union, List
 
-from coacervateOpti.dataManager import remove_columns
-from coacervateOpti.utils import add_keyID_to_dataframe
+from robotexperiments.dataManager import remove_columns
+from robotexperiments.utils import add_keyID_to_dataframe
 
 import activeclf as alclf
 from activeclf.learning import active_learning_cycle

@@ -2,7 +2,7 @@
 
 import argparse
 import pandas as pd
-from robotexperiments.manager import fileManager, get_files_from, select_first_item_with_pattern
+from robotexperiments.fileManager import fileManager, get_files_from, select_first_item_with_pattern
 from robotexperiments.formats import FOLDERS_TREE
 
 FILE_PATTERN = 'validated_points'
