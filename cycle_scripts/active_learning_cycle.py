@@ -25,7 +25,11 @@ from activeclf.learning import active_learning_cycle
 def read_validated_df(df_path: str, remove_keys: Union[List[str], str]=None) -> pd.DataFrame:
     validated_df = pd.read_csv(df_path)
     if remove_keys:
-        validated_df = remove_columns(df=validated_df, key=remove_keys)
+        try:
+            validated_df = remove_columns(df=validated_df, key=remove_keys)
+        except:
+            print(f'{remove_keys} already removed ..')
+            
     return validated_df
 
 # --- main
@@ -36,17 +40,18 @@ def main(argument):
     cycle_config = yaml.load(open(argument.config, 'r'), Loader=yaml.FullLoader)
 
     experiment_name = cycle_config['experimentID']
+    experiment_dir = FOLDERS_TREE['experiments'][experiment_name]
     cycle_number = cycle_config['cycleN']
-    cycle_output_dir = FOLDERS_TREE[experiment_name] + f'/cycles/cycle_{cycle_number}'
+    cycle_output_dir = experiment_dir + f'/cycles/cycle_{cycle_number}/'
     
     # -
     # read the experiment information
-    data = alclf.DataLoader(file_path=cycle_config['dataset'], 
+    data = alclf.DataLoader(file_path=experiment_dir+'/dataset/'+cycle_config['dataset'], 
                             target=cycle_config['targetVariable'])
     
     if cycle_config['validatedset'] is not None:
         print(f'Merging {cycle_config['validatedset']}')
-        validated_df = read_validated_df(df_path=cycle_config['validatedset'],
+        validated_df = read_validated_df(df_path=experiment_dir+'/cycles/'+cycle_config['validatedset'],
                                          remove_keys='Barcode')
         data.merge_validated_df(
             validated_df=validated_df,
