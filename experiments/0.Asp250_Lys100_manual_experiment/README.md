@@ -103,3 +103,10 @@ entropyDecimals: 2
 
 screeningSelection: 'FPS'
 ```
+
+Once the cycle is terminated we can _update_ the masterfile with the new points to be screened by running the script
+```python
+python exp_scripts/append_to_master.py -expID asp250_lys100_NaCl_robotExp0 -ncycle 2
+```
+
+The script will add the new columns and the barcodes, but the target property (i.e., Phase) will be `-1` as the points need to be validated experimentally.
