@@ -17,12 +17,12 @@ MASTER_FILE_COLUMNS = [
     'Barcode' ,
 ]
 
-EXP_REPO_PATH = '/home/andreag/Work/1.main_project/git_repo/RobotLabExperiments/experiments/'
+EXP_REPO_PATH = '/home/andreag/Work/1.main_project/git_repo/RobotLabExperiments/'
 
 FOLDERS_TREE = {
     'master_file' : EXP_REPO_PATH+'/master_file/',
     'experiments' : {
-        'asp250_lys100_NaCl_robotExp0' : EXP_REPO_PATH+'/0.Asp250_Lys100_manual_experiment/',
-        'robot001' : EXP_REPO_PATH+'/1.Asp200_Lys100_robot_test/',
+        'asp250_lys100_NaCl_robotExp0' : EXP_REPO_PATH+'/experiments/'+'/0.Asp250_Lys100_manual_experiment/',
+        'robot001' : EXP_REPO_PATH+'/experiments/'+'/1.Asp200_Lys100_robot_test/',
     }
 }
