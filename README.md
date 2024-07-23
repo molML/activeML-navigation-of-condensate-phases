@@ -39,7 +39,7 @@ The master file is essential as it will contain all the selected points from the
 To initialize it we need to modify the `FORMATS` in the `formats.py` and then simply run
 ```python
 from robotexperiments import manager
-manager.fileManager()
+_ = manager.fileManager()
 ```
 this will recognize the file contained in the folder that follow the specific pre-defined format.
 
