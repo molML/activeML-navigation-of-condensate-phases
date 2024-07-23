@@ -129,7 +129,6 @@ class fileManager:
         self.master_file_version = len(self.master_folder)
         
 
-    
     def append_data(self, new_data: pd.DataFrame, fill_value: Union[int,float,str]=None):
         # Identify new columns that are not in the DataFrame
         new_columns = set(new_data.keys()) - set(self.master_df.columns)
@@ -147,7 +146,6 @@ class fileManager:
             self.master_df = self.master_df.fillna(fill_value)
         
     
-
     def update_data_values(self, 
                            updated_data: pd.DataFrame,
                            reference_key: str='barcode') -> None:

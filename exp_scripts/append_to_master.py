@@ -31,6 +31,10 @@ def main(arguments):
     print(f'Output file with not validated points to be appended:\n{output_points_csv}')
     output_points_df = pd.read_csv(EXP_FOLDER+CYCLE_FOLDER+output_points_csv)
 
+    # added experiment_ID key for traking AI IDs
+    output_points_df['Experiment_ID'] = [arguments.expID]*len(output_points_df)
+
+    # merge the data
     manager.append_data(new_data=output_points_df, fill_value=0)
 
     # - saving to new version
