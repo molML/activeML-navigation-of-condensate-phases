@@ -4,24 +4,24 @@ This is the first testing experiment, that has been carried out in a hybrid manu
 The `README.md` file serves as example for understanding the routine.
 
 Folder organization:
----
-0.Asp250_Lys100_manual_experiment/
-├── cycles
-│   ├── cycle_1
-│   │   └── **outputs_1**
-│   ├── cycle_2
-│   │   └── **outputs_2**
-│   ├── cycle_N
-│   :   :   :
-│      
-├── dataset
-│   ├── DOE_Asp250_Lys100_manualEpx_3Dim.csv
-│   ├── exp_phasevar_config_file.json
-│   ├── lys100_asp250_starting_experiments.csv
-│   └── phase_diagram_config_asp250_lys100.json
-│
-└── README.md
----
+------------
+    0.Asp250_Lys100_manual_experiment/
+    ├── cycles
+    │   ├── cycle_1
+    │   │   └── **outputs_1**
+    │   ├── cycle_2
+    │   │   └── **outputs_2**
+    │   ├── cycle_N
+    │   :   :   :
+    │      
+    ├── dataset
+    │   ├── DOE_Asp250_Lys100_manualEpx_3Dim.csv
+    │   ├── exp_phasevar_config_file.json
+    │   ├── lys100_asp250_starting_experiments.csv
+    │   └── phase_diagram_config_asp250_lys100.json
+    │
+    └── README.md
+------------
 
 ## Initialization
 
@@ -110,3 +110,11 @@ python exp_scripts/append_to_master.py -expID asp250_lys100_NaCl_robotExp0 -ncyc
 ```
 
 The script will add the new columns and the barcodes, but the target property (i.e., Phase) will be `-1` as the points need to be validated experimentally.
+
+Once the points are validated we can update the master file using the script
+```python
+python exp_scripts/update_master.py -expID asp250_lys100_NaCl_robotExp0 -ncycle 2 (-reference Barcode)
+```
+
+Where the script looks for a file called `*validated_points*.csv`, and _reference_ means which column will be used as a reference to update values.
+The validated dataframe must have the reference column identical to a portion of the master file and needs to have the updated column as well (e.i., the target property, Phase).
