@@ -37,27 +37,45 @@ The setup for the experiments requires a few steps:
 
 The master file is essential as it will contain all the selected points from the algorithm and it will guide the robot in preparing the samples.
 To initialize it we need to modify the `FORMATS` in the `formats.py` and then simply run
+
+**TODO**: find a way to improve the folder tree import.
+
 ```python
 from robotexperiments import manager
 _ = manager.fileManager()
 ```
 this will recognize the file contained in the folder that follow the specific pre-defined format.
 
-To create the dataframe containing the points to be screened by the algorithm we can run the script from the [CoacervsOpti](https://github.com/AGardinon/CoacervsOpti) repository:
+To create the dataframe containing the points to be screened by the algorithm we can run the script from the `script_experiments` folder:
 ```bash
-python src/script/experiment_init.py -phasevar config.json
+python src/script_experiments/experiment_init.py -phasevar phasevar_config.json
 ```
+
+This is a sample of input config file, used to create the experimental dataset:
+
+```json
+{
+    "Experiment_ID" : "ExpID_XXX",
+    "phase_diagram_variables" : {
+        "var_1" : {"start":0.1, "end":8.0, "ev":0.1},
+        "var_2" : {"start":0.1, "end":8.0, "ev":0.1},
+        "var_3" : {"start":100, "end":2000, "ev":100},
+        "Phase" : -1
+    }
+}
+```
+where for this example the target variable has been called `Phase`.
 
 ## Runnig the cycles
 
-To run the experiments the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier) and the [CoacervsOpti](https://github.com/AGardinon/CoacervsOpti) packages are required.
-The first package allow to apply the point selection and classification strategies to an input dataset for each cycle and the second one is a wrapper to apply the active classification to the coacervate specific use cases.
+To run the experiments the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier) package is required.
+The package allow to apply the point selection and classification strategies to an input dataset for each cycle.
 
-The general cycle is evaluated by running the `script.py` provided in the repository [CoacervsOpti](https://github.com/AGardinon/CoacervsOpti):
+The general cycle is evaluated by running the `active_learning_cycle.py` from the `script_cycle` folder:
 ```bash
-python src/script/active_learning_cycle.py -c cycle_X_config.yaml
+python src/script_cycles/active_learning_cycle.py -c cycle_X_config.yaml
 ```
-The `experiment_config.yaml` needs to be adjusted depending on the needs of the cycle.
+The `cycle_X_config.yaml` needs to be adjusted depending on the needs of the cycle.
 In the following I will provide a couple of practical examples.
 
 ### Running **Cycle**$_{0}$
@@ -66,11 +84,11 @@ In the following I will provide a couple of practical examples.
 The aim is to search for an _interesting_ set of starting points to then exploit with an active learning strategy.
 
 ```yaml
-experimentID: 'experimentXXX'
+experimentID: 'ExpID_XXX'
 cycleN: 0
 rngSeed: 73
 
-dataset: '../../dataset/DOE_experimentXXX.csv'
+dataset: '../../dataset/DOE_ExpID_XXX.csv'
 targetVariable: 'Phase'
 
 validatedset:
@@ -80,6 +98,7 @@ newBatch: 18
 clfModel: 
 kParam1: 
 kParam2: 
+clf_dict:
 
 acqMode: 
 entropyDecimals: 
@@ -92,20 +111,24 @@ screeningSelection:
 To run **Cycle**$_{1}$ and further we require more information in the config file, as we need to search for new points and fit a classification model.
 
 ```yaml
-experimentID: 'experimentXXX'
+experimentID: 'ExpID_XXX'
 cycleN: 1
 rngSeed: 73
 
-dataset: '../../dataset/DOE_experimentXXX.csv'
+dataset: 'path/to/dataset/DOE_ExpID_XXX.csv'
 targetVariable: 'Phase'
 
-validatedset: ../cycle_0/experimentXXX_cycle0_validated_points.csv
+validatedset: 'path/tocycle_0/DOE_ExpID_XXX_cycle0_validated_points.csv'
 
 newBatch: 18
 
 clfModel: 'GaussianProcessClassifier'
 kParam1: 1.0
 kParam2: 1.0
+clf_dict:
+  n_restarts_optimizer: 5
+  max_iter_predict: 200
+
 
 acqMode: 'exploration'
 entropyDecimals: 2
@@ -116,7 +139,7 @@ screeningSelection: 'FPS'
 The config contains all the necessary information to run a single cycle search of new points based on a previous knowledge of a phase diagram.
 The previous knowledge in this case is accounted by the argument:
 ```yaml
-validatedset: ../cycle_0/experimentXXX_cycle0_validated_points.csv
+validatedset: 'path/to/cycle_0/DOE_ExpID_XXX_cycle0_validated_points.csv'
 ```
 that when specified merge validated (experimetally) points into the dataset.
 
