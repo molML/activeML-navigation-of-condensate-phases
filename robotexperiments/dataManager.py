@@ -121,17 +121,37 @@ def subdictionary_merger(master_key: str,
 
 def remove_columns(df: pd.DataFrame, 
                    key: Union[list[str], str]) -> pd.DataFrame:
-    
-    if isinstance(key, list):
-        to_drop = sum([[s for s in df.columns if k in s] for k in key], [])
+    """
+    Removes a column or a list of columns from a Dataframe.
+    """
+    try:
+        if isinstance(key, list):
+            to_drop = sum([[s for s in df.columns if k in s] for k in key], [])
 
-    elif isinstance(key, str):
-        to_drop = [s for s in df.columns if key in s]
-
-    else:
+        elif isinstance(key, str):
+            to_drop = [s for s in df.columns if key in s]
+            
+    except:
         raise TypeError("Key parameters can only be `str` or `list`.")
     
     df = df.drop(labels=to_drop, 
                  axis=1)
 
     return df
+
+
+def read_validated_df(df_path: str, 
+                      remove_keys: Union[List[str], str]=None) -> pd.DataFrame:
+    """
+    Reads a validated DataFrames.
+    The DF should contain all the variables neesed for the points search 
+    plus the barcode identification and nothing else.
+    """
+    validated_df = pd.read_csv(df_path)
+    if remove_keys:
+        try:
+            validated_df = remove_columns(df=validated_df, key=remove_keys)
+        except:
+            print(f'{remove_keys} already removed ..')
+            
+    return validated_df
