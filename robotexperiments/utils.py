@@ -14,7 +14,7 @@ import uuid
 from datetime import datetime
 import pandas as pd
 from types import SimpleNamespace
-from typing import Union, List
+from typing import Union, List, Tuple
 
 # -------------------------------------------------- #
 # --- custom exception
@@ -89,7 +89,7 @@ def generate_key(mode: str='custom') -> str:
 
 def add_keyID_to_dataframe(df: pd.DataFrame, 
                            col_name: str='Barcode',
-                           generator_mode='custom') -> Union[pd.DataFrame, List]:
+                           generator_mode='custom') -> Tuple[pd.DataFrame, List]:
     
     n_keys = len(df)
     keys_id = list()
