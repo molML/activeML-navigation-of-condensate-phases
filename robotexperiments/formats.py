@@ -3,8 +3,13 @@ import os
 
 MASTER_FILE_NAME_FORMAT = 'master_file_version_{}.csv'
 
+TARGET_LABEL = 'Phase'
+UNASSINED_TARGET_VALUES = -1
+
+INDICATOR_LABEL = 'Barcode'
+
 MASTER_FILE_COLUMNS = [
-    'Phase' ,
+    TARGET_LABEL ,
     'Conc_HEPES' ,
     'pH' ,
     'Conc_Dye_Cy5_AP_Lys_100_(mM)' ,
@@ -15,7 +20,7 @@ MASTER_FILE_COLUMNS = [
     'Experiment_Code' ,
     'Mixing_Volume' ,
     'Final_Volume'  ,
-    'Barcode' ,
+     INDICATOR_LABEL,
 ]
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

@@ -9,10 +9,8 @@ import argparse
 import yaml
 import joblib
 import numpy as np
-import pandas as pd
-from typing import Union, List
 
-from robotexperiments.dataManager import remove_columns
+from robotexperiments.dataManager import read_validated_df
 from robotexperiments.utils import add_keyID_to_dataframe, save_to_jason
 
 from robotexperiments.formats import FOLDERS_TREE
@@ -20,17 +18,6 @@ from robotexperiments.formats import FOLDERS_TREE
 import activeclf as alclf
 from activeclf.learning import active_learning_cycle
 
-# --- func
-
-def read_validated_df(df_path: str, remove_keys: Union[List[str], str]=None) -> pd.DataFrame:
-    validated_df = pd.read_csv(df_path)
-    if remove_keys:
-        try:
-            validated_df = remove_columns(df=validated_df, key=remove_keys)
-        except:
-            print(f'{remove_keys} already removed ..')
-            
-    return validated_df
 
 # --- main
 
