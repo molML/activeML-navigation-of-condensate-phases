@@ -10,14 +10,16 @@ import numpy as np
 
 from robotexperiments.dataManager import read_validated_df
 from robotexperiments.utils import add_keyID_to_dataframe, save_to_jason
-from robotexperiments.formats import FOLDERS_TREE, INDICATOR_LABEL, TARGET_LABEL, UNASSINED_TARGET_VALUES
+from robotexperiments.formats import FOLDERS_TREE, INDICATOR_LABEL, TARGET_LABEL, UNASSIGNED_TARGET_VALUES, OUTPUT_FILE_PATTERN
 
 import activeclf as alclf
 from activeclf.learning import active_learning_cycle
 
-# --- variables
+from typing import Any
 
-SAMPLING_MODE_LIST = ['FPS', 'random']
+# ------------------------------------------------
+# ACTIVE LEARNING
+# ------------------------------------------------
 
 # --- main
 
@@ -42,8 +44,15 @@ def active_cycle(
     # dir with all the experiment files
     experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
     # dir to save current results
-    cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}'
+    cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
     # TODO: add assert statement and make the dir automatically generated (?)
+
+    # - OUTPUTS
+    output_files_name = cycle_output_dir_path+f'{experimentID}_cycle{cycle_number}'
+
+    # local varaibles passed to the function
+    save_to_jason(dictonary=locals(),
+                  fout_name=output_files_name+f'_config_file')
 
     # - read the search space dataframe
     data = alclf.DataLoader(
@@ -51,27 +60,19 @@ def active_cycle(
         target=TARGET_LABEL
     )
 
-    # - create the feature space
-    # - necessary for the active learnig routine (see alclf doc)
-    data.feature_space(scaling=True)
-
     # ----------------------------------------------------------------------------------------------
     # - checks for cycle 0
     if cycle_number == 0:
         print('Cycle 0 assumes no points are known and the search space is completely unexplored.')
         print('The information about the acquisition funciton and the classifier will be skipped.')
         # -- if cycle 0 the new batch of point will be computed accoding to sampling mode
-        assert sampling_mode in SAMPLING_MODE_LIST, f"Error: sampling_mode '{sampling_mode}' is not in the list of modes, {SAMPLING_MODE_LIST}"
+        # assert sampling_mode in SAMPLING_MODE_LIST, f"Error: sampling_mode '{sampling_mode}' is not in the list of modes, {SAMPLING_MODE_LIST}"
 
         # the new index are the main result of the algorithm as they represent
         # the new points that are going to be screened in the lab
 
-        if sampling_mode == 'FPS':
-            new_al_indices = alclf.acquisition.sampling_fps(X=data.X, 
-                                                            n=new_points_batch)
-        elif sampling_mode == 'random':
-            new_al_indices = alclf.acquisition.sampling_rand(X=data.X,
-                                                             n=new_points_batch)
+        new_al_indices = alclf.acquisition.pointSampler(mode=sampling_mode).sample(X=data.X,
+                                                                                   n=new_points_batch)
 
     # ----------------------------------------------------------------------------------------------
     # - if cycle number is greater than 0 we assume we can use the clasisfier and the active search
@@ -80,7 +81,7 @@ def active_cycle(
         # -- checks for validated dataset
         if validated_dataset:
             # read the validated df removing the indicator labels (for merging purpouses)
-            validated_df = read_validated_df(df_path=experiment_dir_path + f'/cycles/cycle_{cycle_number-1}',
+            validated_df = read_validated_df(df_path=experiment_dir_path + f'/cycles/cycle_{cycle_number-1}/'+validated_dataset,
                                              remove_keys=INDICATOR_LABEL)
             # --- merge (update) the validated points into the search space df and overwrite it
             data.merge_validated_df(
@@ -95,11 +96,20 @@ def active_cycle(
             # already inserted in a dataframe, hence no validation needed from cycle0 as
             # there is no cycle0
             assert cycle_number == 1, 'Validation dataframe not set, and cycle > 1!'
+
+        # - create the feature space
+        # - necessary for the active learnig routine (see alclf doc)
+        data.feature_space(scaling=True)
     
         print(f'\nCycle n. {cycle_number}\n')
         print('Searching for new points in an active way ...\n')
 
         # -- set up the classifier function
+        # build the kernel object
+        kernel_factory = alclf.classification.KernelFactory(kernel_dict=classifier_dict['kernel'])
+        # substitue the kernel to dict
+        classifier_dict['kernel'] = kernel_factory.get_kernel()
+
         # the classifier dict must be defined according to the 
         # classifier model chosen
         classifier_func = alclf.ClassifierModel(model=classifier_model, **classifier_dict)
@@ -113,7 +123,7 @@ def active_cycle(
         # the algo assumes that the un-explored points all have a set target value
         # e.g., -1 (or as defined by the UNASSINED_TARGET_VALUES)
         # TODO: change the referencing in the code using the global variables in the format.py
-        known_indices = data.y.index[data.y != UNASSINED_TARGET_VALUES].tolist()
+        known_indices = data.y.index[data.y != UNASSIGNED_TARGET_VALUES].tolist()
 
         # -- actual cycle
 
@@ -142,25 +152,113 @@ def active_cycle(
     # - select only the barcodes for output
     barcode_df = new_al_points_df['Barcode']
 
-    # - OUTPUTS
-    output_files_name = cycle_output_dir_path+f'{experimentID}_cycle{cycle_number}'
 
     # new al points with barcodes dataframe
-    new_al_points_df.to_csv(output_files_name+f'_output_points.csv', index=False)
+    new_al_points_df.to_csv(output_files_name+f'_{OUTPUT_FILE_PATTERN}.csv', index=False)
 
     # original indicing of new al points (referring to the big dataframe of points)
-    np.savetxt(output_files_name+f'_ouput_points.ndx', new_al_points_df.index.tolist())
+    np.savetxt(output_files_name+f'_output_points.ndx', new_al_points_df.index.tolist())
 
     # dataframe containing the barcodes of the new al points
-    barcode_df.to_csv(output_files_name+f'_ouput_barcodes.csv', index=False)
+    barcode_df.to_csv(output_files_name+f'_output_barcodes.csv', index=False)
 
     # classifier and output of the classifier
     if cycle_number > 0:
-        np.save(output_files_name+f'_ouput_points_pdf.npy', new_al_indices_pdf)
+        np.save(output_files_name+f'_output_points_pdf.npy', new_al_indices_pdf)
         joblib.dump(classifier_func.clf, output_files_name+f'_ouput_algorithm.pkl')
-
-    # local varaibles passed to the function
-    save_to_jason(dictonary=locals(),
-                  fout_name=output_files_name+f'_config_file')
     
-    print(f'\n# End of Cycle {cycle_number}')
+    print(f'\n# END of Cycle {cycle_number}')
+
+
+# ------------------------------------------------
+# APPEND/UPDATE to MASTER
+# ------------------------------------------------
+
+import pandas as pd
+from robotexperiments.fileManager import fileManager, get_files_from, select_first_item_with_pattern
+
+# --- main append
+
+def append_to_masterfile(experimentID: str,
+                         cycle_number: int,
+                         fill_value: Any=0) -> None:
+    
+    # - set the paths
+    experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
+    # dir to save current results
+    cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
+
+    # - init the file manager
+    # this will automatically recover the latest version of the 
+    # master file (or create it if it's missing)
+
+    manager = fileManager()
+
+    # - read the output files
+    # by defaut set to read the .csv files as it expect the output
+    # points to be in that form and it search for `format.OUTPUT_FILE_PATTERN`
+    # to recognize the points to be added to the master file
+
+    cycle_output_csv_files = get_files_from(folder=cycle_output_dir_path)
+    # may be getto
+    cycle_output_points_csv = select_first_item_with_pattern(strings=cycle_output_csv_files,
+                                                             pattern=OUTPUT_FILE_PATTERN)
+    # TODO: improve this (?)
+
+    output_points_df = pd.read_csv(cycle_output_dir_path+cycle_output_points_csv)
+    print(f'Output file with not validated points to be appended:\n{cycle_output_points_csv}')
+
+    # - added experiment_ID key for traking AI IDs
+    output_points_df['Experiment_ID'] = [experimentID]*len(output_points_df)
+
+    # - merge the data and fill the unknown
+    manager.append_data(new_data=output_points_df, 
+                        fill_value=fill_value)
+
+    # - saving a new master file version
+    manager.save_file(overwrite=False)
+
+    print('# END append to master file')
+
+
+# --- main update
+
+from robotexperiments.formats import VALIDATED_FILE_PATTERN
+
+
+def update_masterfile(experimentID: str,
+                      cycle_number: int):
+
+    # - set the paths
+    experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
+    # dir to save current results
+    cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
+
+    # - init the file manager
+    # this will automatically recover the latest version of the 
+    # master file (or create it if it's missing)
+
+    manager = fileManager()
+
+    # - read the output files
+    # by defaut set to read the .csv files as it expect the output
+    # points to be in that form and it search for `format.VALIDATED_FILE_PATTERN`
+    # to recognize the points to be added to the master file.
+    # The validated files comes from experimental validation.
+
+    cycle_output_csv_files = get_files_from(folder=cycle_output_dir_path)
+    # may be getto
+    cycle_validated_points_csv = select_first_item_with_pattern(strings=cycle_output_csv_files,
+                                                                pattern=VALIDATED_FILE_PATTERN)
+    # TODO: improve this (?)
+
+    validated_points_df = pd.read_csv(cycle_output_dir_path+cycle_validated_points_csv)
+    print(f'Output file with validated points:\n{cycle_validated_points_csv}')
+
+    manager.update_data_values(updated_data=validated_points_df,
+                               reference_key=INDICATOR_LABEL)
+    
+    # - save over-write
+    manager.save_file(overwrite=True)
+
+    print('# END update the master file')

@@ -4,9 +4,11 @@ import os
 MASTER_FILE_NAME_FORMAT = 'master_file_version_{}.csv'
 
 TARGET_LABEL = 'Phase'
-UNASSINED_TARGET_VALUES = -1
-
+UNASSIGNED_TARGET_VALUES = -1
 INDICATOR_LABEL = 'Barcode'
+
+OUTPUT_FILE_PATTERN = 'output_points'
+VALIDATED_FILE_PATTERN = 'validated_points'
 
 MASTER_FILE_COLUMNS = [
     TARGET_LABEL ,
@@ -20,7 +22,7 @@ MASTER_FILE_COLUMNS = [
     'Experiment_Code' ,
     'Mixing_Volume' ,
     'Final_Volume'  ,
-     INDICATOR_LABEL,
+    INDICATOR_LABEL ,
 ]
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
