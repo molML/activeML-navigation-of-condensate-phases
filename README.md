@@ -16,12 +16,12 @@ Folder organization:
         │   │   ├── experimentXXX_cycle0_ouput_points.csv
         │   │   ├── experimentXXX_cycle0_ouput_points.ndx
         │   │   ├── experimentXXX_cycle0_validated_points.csv
-        │   │   └── cycle_0_config.yaml
+        │   │   └── experimentXXX_cycle_0_config.yaml
         │   ├── cycle_1
         │   │   ├── experimentXXX_cycle1_ouput_points.csv
         │   │   ├── experimentXXX_cycle1_ouput_points.ndx
         │   │   ├── experimentXXX_cycle1_validated_points.csv
-        │   │   └── cycle_1_config.yaml
+        │   │   └── experimentXXX_cycle_1_config.yaml
         │   └── cycle_N
         │
         └── dataset
@@ -32,149 +32,121 @@ Folder organization:
 ## Setting up the experiment
 
 The setup for the experiments requires a few steps:
--   creating the master file
--   creating the experimental points that will be screened and evaluated during the cycles
+-   setting up the directory tree,
+-   creating the experimental points that will be screened and evaluated during the cycles.
 
-The master file is essential as it will contain all the selected points from the algorithm and it will guide the robot in preparing the samples.
-To initialize it we need to modify the `FORMATS` in the `formats.py` and then simply run
+The `robotexperiments/format.py` file contains core information about the experiments, the master-file, and other essential global variables to run the experiments.
 
-**TODO**: find a way to improve the folder tree import.
+### Master-file
 
+The master-file is the main storing file for all the screened points in all the experiments and it will also guide the robot in the preparation of samples.
+
+The _master-file_ can be initialized (according to the format defined) by running
 ```python
-from robotexperiments import manager
-_ = manager.fileManager()
+from robotexperiments.fileManager import fileManager
+manager = fileManager()
 ```
-this will recognize the file contained in the folder that follow the specific pre-defined format.
+this will create the empty columns for the file and allow other type of actions, like appending, updating and saving different versions of the master file.
+
+### Experiment search-space dataframe
 
 To create the dataframe containing the points to be screened by the algorithm we can run the script from the `script_experiments` folder:
 ```bash
 python src/script_experiments/experiment_init.py -phasevar phasevar_config.json
 ```
-
+The script needs an input file containing instructions on the ranges of the experimental values of the variables to screen during the experiments.
 This is a sample of input config file, used to create the experimental dataset:
 
 ```json
 {
     "Experiment_ID" : "ExpID_XXX",
     "phase_diagram_variables" : {
-        "var_1" : {"start":0.1, "end":8.0, "ev":0.1},
-        "var_2" : {"start":0.1, "end":8.0, "ev":0.1},
-        "var_3" : {"start":100, "end":2000, "ev":100},
+        "X" : {"start":0.1, "end":8.0, "ev":0.1},
+        "Y" : {"start":0.1, "end":8.0, "ev":0.1},
+        "Z" : {"start":100, "end":2000, "ev":100},
         "Phase" : -1
     }
 }
 ```
-where for this example the target variable has been called `Phase`.
+where a 3D space of variables is assembled with the target property being the `Phase`.  
 
-## Runnig the cycles
+## Running the cycles
 
 To run the experiments the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier) package is required.
 The package allow to apply the point selection and classification strategies to an input dataset for each cycle.
 
 The general cycle is evaluated by running the `active_learning_cycle.py` from the `script_cycle` folder:
 ```bash
-python src/script_cycles/active_learning_cycle.py -c cycle_X_config.yaml
+python src/script_cycles/active_learning_cycle.py
 ```
-The `cycle_X_config.yaml` needs to be adjusted depending on the needs of the cycle.
-In the following I will provide a couple of practical examples.
+The script input dictionary needs to be adjusted depending on the needs and it contains all the information about the experiment cycle.
 
-### Running **Cycle**$_{0}$
+### Input dictionary
 
-**Cycle**$_{0}$ refers to the initial cycle, where no information of the system is know.
-The aim is to search for an _interesting_ set of starting points to then exploit with an active learning strategy.
+The input dictionary is defined inside the script (for now) but it can be leverage for automatic experiments.
 
-```yaml
-experimentID: 'ExpID_XXX'
-cycleN: 0
-rngSeed: 73
+```python
+# --- Variables
 
-dataset: '../../dataset/DOE_ExpID_XXX.csv'
-targetVariable: 'Phase'
+experimentID = 'robot001'
+cycle_number_tmp = 1
+new_points_batch_tmp = 18
 
-validatedset:
+classifier_dict_tmp = {
+    'kernel': ['*', {'type': 'C', 'constant_value': 1.0}, {'type': 'RBF', 'length_scale': 1.0}],
+    'n_restarts_optimizer': 5,
+    'max_iter_predict': 150,
+    'n_jobs': 3
+}
 
-newBatch: 18
+acquisition_mode_tmp = 'exploration'
 
-clfModel: 
-kParam1: 
-kParam2: 
-clf_dict:
-
-acqMode: 
-entropyDecimals: 
-
-screeningSelection: 
-```
-
-### Running **Cycle**$_{1}$ and further **Cycles**
-
-To run **Cycle**$_{1}$ and further we require more information in the config file, as we need to search for new points and fit a classification model.
-
-```yaml
-experimentID: 'ExpID_XXX'
-cycleN: 1
-rngSeed: 73
-
-dataset: 'path/to/dataset/DOE_ExpID_XXX.csv'
-targetVariable: 'Phase'
-
-validatedset: 'path/tocycle_0/DOE_ExpID_XXX_cycle0_validated_points.csv'
-
-newBatch: 18
-
-clfModel: 'GaussianProcessClassifier'
-kParam1: 1.0
-kParam2: 1.0
-clf_dict:
-  n_restarts_optimizer: 5
-  max_iter_predict: 200
-
-
-acqMode: 'exploration'
-entropyDecimals: 2
-
-screeningSelection: 'FPS'
+experiment_cycle_dict_tmp = {
+    'experimentID': experimentID,
+    'cycle_number' : cycle_number_tmp,
+    'search_space_dataset': 'DOE_robot001_3Dim.csv',
+    'validated_dataset' : f'/{experimentID}_validated_points.csv', # or None
+    'new_points_batch' : new_points_batch_tmp,
+    'classifier_model' : 'GaussianProcessClassifier',
+    'classifier_dict': classifier_dict_tmp,
+    'acquisition_mode': acquisition_mode_tmp,
+    'entropy_accuracy' : 1,
+    'sampling_mode': 'FPS',
+}
 ```
 
-The config contains all the necessary information to run a single cycle search of new points based on a previous knowledge of a phase diagram.
-The previous knowledge in this case is accounted by the argument:
-```yaml
-validatedset: 'path/to/cycle_0/DOE_ExpID_XXX_cycle0_validated_points.csv'
+The code is easily extendable to a loop over multiple cycles, batch of points, acquisition functions or other variables.
+
+Once the cycle is over a bunch of outputs will be generated:
+-   csv containig the new batch of points to screen
+-   barcode identifiers of the new batch of points
+-   original indeces of the points
+-   classifier model pkl
+-   probability distribution function evaluated over the entire search space
+-   json file containing the input configuration
+
+Additionally, at the end of each cycle a few actions are run:
+1.  the new points (not validated) are appended to the master file
+2.  the points are validated (robot experiment)
+3.  the master file is updated with the validated points
+
+Point 1. is taken care automatically from the `active_learning_cycle.py` script
+```python
+from robotexperiments.cycle import append_to_masterfile
+
+append_to_masterfile(experimentID=experimentID,
+                     cycle_number=cycle_number_tmp,
+                     fill_value=0)
 ```
-that when specified merge validated (experimetally) points into the dataset.
 
-All the other arguments are either self-explanatory or they can be understood by following the implementation of the [ActiveLearningCLassiFier](https://github.com/AGardinon/ActiveLearningCLassiFier).
+Point 2. is carried out with the robot.
 
+Point 3. assumes that a file `experimentID_validated_points.csv` is created in the cycle folder containig all the information that the `experimentID_output_points.csv` contains but with the validated value of the target variable.
+The master file can be upgraded in a similar way:
+```python
+from robotexperiments.cycle import update_masterfile
 
-## Managing the results files
-
-During each cycle a bunch of experimental designs will be selected for the validation phase.
-After said validation two main files will be updated:
-1.  `N.experimentXXX/dataset/DOE_experimentXXX.csv`
-2.  `master_file/master_file_version_X.csv` 
-
-The first one serves as the main dataset used to select points from for a specific experiment.
-It effectively represents the phase diagram space that it is going to be explored.
-
-The second serves as a container to store and keep track of all the experimental designs that were tested during all the different experiments.
-
-### End of the cycle routine
-
-End-of-the-cycle routine refers to the actions required after the new points are selected by the active learning strategy and they are ready to be validated.
-The routine contains the following steps:
-1.  append the new points to the master file and save a new master file version.
-2.  experimental validation of the points (robot experiments)
-3.  update the validated points values in the master file (saved from p.1)
-4.  save the updated version of the master file, overwriting to the save version created in p.1 
-
-Appending data to the master file
-```bash
-python append_to_master.py -expID robot001 -ncycle 0
+update_masterfile(experimentID=experimentID,
+                  cycle_number=cycle_number_tmp,
+                  fill_value=0)
 ```
-where `$EXPID, $NCYCLE` are two values that define the current experiment ID (as defined in the `FOLDERS_TREE`) and cycle number.
-
-To update the master file with validated points
-```bash
-python update_master.py -expID robot001 -ncycle 0 -reference Barcode
-```
-where `$REFERENCE` refers to a reference column key that is used to aplly the substitution, by default the `Barcode` (dafault option).
