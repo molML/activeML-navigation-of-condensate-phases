@@ -10,22 +10,25 @@ Folder organization:
     └── master_file_version_N.csv
 
     experiments/
-    └── 1.experimentXXX
+    └── 1.experimentID
         ├── cycles
         │   ├── cycle_0
-        │   │   ├── experimentXXX_cycle0_ouput_points.csv
-        │   │   ├── experimentXXX_cycle0_ouput_points.ndx
-        │   │   ├── experimentXXX_cycle0_validated_points.csv
-        │   │   └── experimentXXX_cycle_0_config.yaml
+        │   │   ├── experimentID_cycle0_ouput_points.csv
+        │   │   ├── experimentID_cycle0_ouput_points.ndx
+        │   │   ├── experimentID_cycle0_ouput_points_pdf.npy
+        │   │   ├── experimentID_cycle0_ouput_barcodes.csv 
+        │   │   ├── experimentID_cycle0_ouput_algorithm.pkl 
+        │   │   ├── experimentID_cycle0_validated_points.csv
+        │   │   └── experimentID_cycle0_config_file.json
         │   ├── cycle_1
-        │   │   ├── experimentXXX_cycle1_ouput_points.csv
-        │   │   ├── experimentXXX_cycle1_ouput_points.ndx
-        │   │   ├── experimentXXX_cycle1_validated_points.csv
-        │   │   └── experimentXXX_cycle_1_config.yaml
+        │   │   ├── experimentID_cycle1_ouput_points.csv
+        │   │   ├── experimentID_cycle1_ouput_points.ndx
+        │   │   ├── ...
+        │   │   └── ...
         │   └── cycle_N
         │
         └── dataset
-            ├── DOE_experimentXXX.csv
+            ├── DOE_experimentID.csv
             └── phase_diagram_config_experimentXXX.json
 ------------
 

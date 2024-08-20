@@ -152,7 +152,6 @@ def active_cycle(
     # - select only the barcodes for output
     barcode_df = new_al_points_df['Barcode']
 
-
     # new al points with barcodes dataframe
     new_al_points_df.to_csv(output_files_name+f'_{OUTPUT_FILE_PATTERN}.csv', index=False)
 
