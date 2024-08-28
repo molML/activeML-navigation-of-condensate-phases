@@ -12,10 +12,10 @@ VALIDATED_FILE_PATTERN = 'validated_points'
 
 MASTER_FILE_COLUMNS = [
     TARGET_LABEL ,
-    'Conc_HEPES' ,
+    'Conc_HEPES_(mM)' ,
     'pH' ,
     'Conc_Dye_Cy5_AP_Lys_100_(mM)' ,
-    'Conc_Dye_FITC_AP_Asp_100_(mM)' ,
+    'Conc_Dye_FITC_SIGMA_Asp_250_(mM)' ,
     'Plate_Barcode' ,
     'Plate_Position' ,
     'Preparation_Date' ,
@@ -36,4 +36,10 @@ FOLDERS_TREE = {
         'asp250_lys100_NaCl_robotExp0' : EXP_REPO_PATH+'/0.Asp250_Lys100_manual_experiment/',
         'robot001' : EXP_REPO_PATH+'/1.Asp200_Lys100_robot_test/',
     }
+}
+
+MAPPING_PHASES = {
+    1 : 0,
+    3 : 1,
+    2 : 2,
 }

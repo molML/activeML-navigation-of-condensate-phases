@@ -2,7 +2,7 @@
 
 import argparse
 import pandas as pd
-from robotexperiments.fileManager import fileManager, get_files_from, select_first_item_with_pattern
+from robotexperiments.fileManager import MasterFileManager, get_files_from, select_first_item_with_pattern
 from robotexperiments.formats import FOLDERS_TREE
 
 FILE_PATTERN = 'validated_points'
@@ -16,8 +16,8 @@ def main(arguments):
     CYCLE_FOLDER = f'cycles/cycle_{arguments.ncycle}/'
 
     # -----------------------------------
-    # - init the fileManager
-    manager = fileManager()
+    # - init the MasterFileManager
+    manager = MasterFileManager()
 
     # -----------------------------------
     # - read output files

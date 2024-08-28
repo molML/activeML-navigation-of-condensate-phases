@@ -91,12 +91,13 @@ def select_first_item_with_pattern(strings: List[str], pattern: str):
 
 # -- OBJECTS
 
-class fileManager:
+class MasterFileManager:
 
     def __init__(self, 
                  df_columns: List[str]=MASTER_FILE_COLUMNS,
                  file_name_format: str=MASTER_FILE_NAME_FORMAT,
-                 folders_tree: dict=FOLDERS_TREE) -> None:
+                 folders_tree: dict=FOLDERS_TREE,
+                 verbose: bool=True) -> None:
         
         self.master_columns = df_columns
         self.master_file_name_format = file_name_format
@@ -118,13 +119,15 @@ class fileManager:
             self.master_df.to_csv(
                 self.folders_tree['master_file']+self.master_file,
                 index=False)
-            print(self.master_df)
+            if verbose:
+                print(self.master_df)
         
         else:
             print(f'Selecting last version: {self.master_folder[-1]}')
             self.master_file = self.master_folder[-1]
             self.master_df = pd.read_csv(self.folders_tree['master_file']+self.master_file)
-            print(self.master_df.tail(10))
+            if verbose:
+                print(self.master_df.tail(10))
 
         self.master_file_version = len(self.master_folder)
         

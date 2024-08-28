@@ -174,7 +174,7 @@ def active_cycle(
 # ------------------------------------------------
 
 import pandas as pd
-from robotexperiments.fileManager import fileManager, get_files_from, select_first_item_with_pattern
+from robotexperiments.fileManager import MasterFileManager, get_files_from, select_first_item_with_pattern
 
 # --- main append
 
@@ -191,7 +191,7 @@ def append_to_masterfile(experimentID: str,
     # this will automatically recover the latest version of the 
     # master file (or create it if it's missing)
 
-    manager = fileManager()
+    manager = MasterFileManager()
 
     # - read the output files
     # by defaut set to read the .csv files as it expect the output
@@ -237,7 +237,7 @@ def update_masterfile(experimentID: str,
     # this will automatically recover the latest version of the 
     # master file (or create it if it's missing)
 
-    manager = fileManager()
+    manager = MasterFileManager()
 
     # - read the output files
     # by defaut set to read the .csv files as it expect the output
@@ -261,3 +261,52 @@ def update_masterfile(experimentID: str,
     manager.save_file(overwrite=True)
 
     print('# END update the master file')
+
+
+# ------------------------------------------------
+# EXTRACT VALIDATION FROM MASTERFILE
+# ------------------------------------------------
+
+from robotexperiments.utils import parse_config
+from robotexperiments.formats import VALIDATED_FILE_PATTERN, MAPPING_PHASES
+
+
+def extract_validated_points(experimentID: str,
+                             cycle_number: int) -> None:
+
+
+    # - set the paths
+    experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
+    # dir to save current results
+    cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
+    
+    output_file_name = cycle_output_dir_path+f'{experimentID}_cycle{cycle_number}'+f'_{VALIDATED_FILE_PATTERN}.csv'
+
+    dataset_dir_path = experiment_dir_path + '/dataset/'
+    dataset_init_file = get_files_from(folder=dataset_dir_path,
+                                       ew='.json',
+                                       verbose=False)[0]
+    # get the experimental columns
+    dataset_init_dict = parse_config(filename=dataset_dir_path+dataset_init_file)
+    dataset_columns = list(dataset_init_dict['phase_diagram_variables'].keys())
+
+    manager = MasterFileManager(verbose=False)
+
+    # assumes the master file has been updated
+    master_df = manager.master_df
+
+    # load barcodes
+    barcodes_file = get_files_from(folder=cycle_output_dir_path,
+                                   ew='barcodes.csv', 
+                                   verbose=False)[0]
+    
+    barcodes = pd.read_csv(cycle_output_dir_path+barcodes_file)[INDICATOR_LABEL].to_numpy()
+
+    validated_points_df = master_df[master_df[INDICATOR_LABEL].isin(barcodes)][dataset_columns]
+    validated_points_df[TARGET_LABEL] = validated_points_df[TARGET_LABEL].map(MAPPING_PHASES)
+
+    print(f'Validated points dataframe:\n{validated_points_df}')
+
+    validated_points_df.to_csv(output_file_name, index=False)
+
+    print(f'Saved to: {output_file_name}')
