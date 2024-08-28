@@ -1,7 +1,7 @@
 {
     "Experiment_ID": "Asp250_Lys100_manualEpx",
     "phase_diagram_variables": {
-        "Conc_Asp_250_(mM)": [
+        "Conc_SIGMA_Asp_250_(mM)": [
             0.0625,
             0.125,
             0.25,
@@ -28,7 +28,7 @@
             7.2,
             7.6
         ],
-        "Conc_Lys_100_(mM)": [
+        "Conc_AP_Lys_100_(mM)": [
             0.0625,
             0.125,
             0.25,
