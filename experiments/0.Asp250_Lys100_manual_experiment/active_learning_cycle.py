@@ -11,7 +11,7 @@ from robotexperiments.cycle import active_cycle, append_to_masterfile
 # --- Variables
 
 experimentID = 'asp250_lys100_NaCl_robotExp0'
-cycle_number_tmp = 3
+cycle_number_tmp = 4
 new_points_batch_tmp = 16
 
 classifier_dict_tmp = {
