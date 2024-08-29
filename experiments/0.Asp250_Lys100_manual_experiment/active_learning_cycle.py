@@ -27,7 +27,7 @@ experiment_cycle_dict_tmp = {
     'experimentID': experimentID,
     'cycle_number' : cycle_number_tmp,
     'search_space_dataset': 'DOE_Asp250_Lys100_manualEpx_3Dim.csv',
-    'validated_dataset' : f'{experimentID}_cycle2_validated_points.csv',
+    'validated_dataset' : f'{experimentID}_cycle{cycle_number_tmp-1}_validated_points.csv',
     'new_points_batch' : new_points_batch_tmp,
     'classifier_model' : 'GaussianProcessClassifier',
     'classifier_dict': classifier_dict_tmp,
@@ -57,3 +57,4 @@ if __name__ == '__main__':
     append_to_masterfile(experimentID=experimentID,
                          cycle_number=cycle_number_tmp,
                          fill_value=0)
+    

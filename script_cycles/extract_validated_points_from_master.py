@@ -19,7 +19,7 @@ cycle_number_tmp = 3
 if __name__ == '__main__':
 
     print('# --------------------------------------\n'\
-         f'# \tExtract validated points of {cycle_number_tmp}     \n'\
+         f'# Extract validated points of Cycle {cycle_number_tmp}     \n'\
           '# --------------------------------------\n'\
           )
 
