@@ -12,7 +12,7 @@ from robotexperiments.cycle import extract_validated_points
 # --- Variables
 
 experimentID = 'asp250_lys100_NaCl_robotExp0'
-cycle_number_tmp = 3
+cycle_number_tmp = 4
 
 # --- main
 
