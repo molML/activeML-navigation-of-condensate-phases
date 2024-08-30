@@ -164,4 +164,6 @@ cython_debug/
 # hide the experiments folder
 #experiments/
 # tmp pythonpath
-pypath_export_tmp
+#pypath_export_tmp
+#
+*.ipynb
