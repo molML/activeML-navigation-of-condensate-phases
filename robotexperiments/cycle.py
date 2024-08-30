@@ -164,7 +164,7 @@ def active_cycle(
     # classifier and output of the classifier
     if cycle_number > 0:
         np.save(output_files_name+f'_output_points_pdf.npy', new_al_indices_pdf)
-        joblib.dump(classifier_func.clf, output_files_name+f'_ouput_algorithm.pkl')
+        joblib.dump(classifier_func.clf, output_files_name+f'_output_algorithm.pkl')
     
     print(f'\n# END of Cycle {cycle_number}')
 
