@@ -131,37 +131,12 @@ def plot2D_3variable_points(df: pd.DataFrame,
                             var1: str,
                             var2: str,
                             constant_var: Tuple[str,float],
-                            target: str,
+                            screened_points_ndx: List,
+                            new_points_ndx: List,
                             axis: Axes) -> None:
     
-    # get the right 3d variable plane
-    masked_2d_plane_df = df[df[constant_var[0]] == constant_var[1]]
-    # get the screened points from that level
-    masked_screened_ponints_df = masked_2d_plane_df[masked_2d_plane_df[target] != -1]
-
-    # get the phase of the screened points
-    phase = masked_screened_ponints_df[target]
-    # get the index of the screened points
-    index = masked_screened_ponints_df.index.to_numpy()
-
-    # build the 2d plot space
-    X = masked_2d_plane_df[[var1, var2]].to_numpy()
-
-    # plot
-    axis.scatter(*X.T, s=1, c='.5', alpha=.5)
-    axis.scatter(*X[index].T, s=20, c=np.array(COLOURS)[phase], edgecolors='0.')
-    axis.set_xlabel(var1)
-    axis.set_ylabel(var2)
-    axis.set_title(constant_var[0]+f' {constant_var[1]}')
-
-
-def plot2D_3variable_pdf(df: pd.DataFrame,
-                         pdf: np.ndarray,
-                         var1: str,
-                         var2: str,
-                         constant_var: Tuple[str,float],
-                         target: str, 
-                         axis: Axes) -> None:
+    x = df[var1]
+    y = df[var2]
 
     # get the right 3d variable plane
     masked_2d_plane_df = df[df[constant_var[0]] == constant_var[1]]
@@ -173,23 +148,27 @@ def plot2D_3variable_pdf(df: pd.DataFrame,
     X = XX[:,0]
     Y = XX[:,1]
 
-    for phase in range(pdf.shape[1]):
-
-        alphas_phase_tmp = get_alphas(pdf=pdf[:, phase], 
-                                      scale=True, 
-                                      treshold=0.500000001)
+    # show the points
+    # compute the intersection between the screened and the plane indexes
+    intersection_screened = list(set(masked_2d_plane_index) & set(screened_points_ndx))
+    if len(intersection_screened) > 0:
+        axis.scatter(x[intersection_screened], y[intersection_screened], s=100,
+                     c=np.array(COLOURS)[df['Phase'].iloc[intersection_screened]], 
+                     marker='o', edgecolors='0.', zorder=5)
+        # axis.scatter(x[intersection_screened], y[intersection_screened], 
+        #                 s=50,
+        #                 c='0.', marker='x', edgecolors='0.', zorder=6)
         
-        Z = pdf[masked_2d_plane_index, phase]
-
-        # plot
-        axis.scatter(X, Y, c=Z, 
-                     cmap=CMAPS[phase], vmax=1., vmin=0.,
-                     marker='o', s=30,
-                     alpha=alphas_phase_tmp[masked_2d_plane_index])
-
-        axis.set_xlabel(var1)
-        axis.set_ylabel(var2)
-        axis.set_title(constant_var[0]+f' {constant_var[1]}')
+    intersection_newpoints = list(set(masked_2d_plane_index) & set(new_points_ndx))
+    if len(intersection_newpoints) > 0:
+        axis.scatter(x[intersection_newpoints], y[intersection_newpoints], 
+                        s=100,
+                        c='1.', marker='o', edgecolors='0.', zorder=5)
+        
+    axis.scatter(X,Y, s=5, c='.5', alpha=.5, zorder=1)
+    axis.set_xlabel(var1)
+    axis.set_ylabel(var2)
+    axis.set_title(constant_var[0]+f'={constant_var[1]}')
 
 
 def plot2D_3variable_pdfsurface(df: pd.DataFrame,
@@ -209,13 +188,6 @@ def plot2D_3variable_pdfsurface(df: pd.DataFrame,
     masked_2d_plane_df = df[df[constant_var[0]] == constant_var[1]]
     # get the index of the 3d variable plane points
     masked_2d_plane_index = masked_2d_plane_df.index.to_numpy()
-
-    # # get the screened points from that level
-    # masked_screened_ponints_df = masked_2d_plane_df[masked_2d_plane_df[target] != -1]
-    # # get the phase of the screened points
-    # phase = masked_screened_ponints_df[target]
-    # # get the index of the screened points
-    # index = masked_screened_ponints_df.index.to_numpy()
 
     # build the 2d plot space
     XX = masked_2d_plane_df[[var1, var2]].to_numpy()
@@ -272,7 +244,7 @@ def plot2D_3variable_pdfsurface(df: pd.DataFrame,
         
         if phase == 0:
             boundary = axis.contour(grid_x, grid_y, grid_z, 
-                                    levels=[.50], c='.0', linestyles='-.')
+                                    levels=[.50], linestyles='-.')
 
         axis.set_xlabel(var1)
         axis.set_ylabel(var2)
@@ -354,7 +326,7 @@ def plot2D_3variable_entropysurface(df: pd.DataFrame,
 
     contours = axis.contour(grid_x, grid_y, grid_h, 
                             levels=np.linspace(0,MAX_ENTROPY[n_phases]+.1, 7), colors='.0', 
-                            vmin=0., vmax=MAX_ENTROPY[n_phases])
+                            vmin=.0, vmax=MAX_ENTROPY[n_phases])
     axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
 
     contours = axis.contourf(grid_x, grid_y, grid_h, 
@@ -362,7 +334,7 @@ def plot2D_3variable_entropysurface(df: pd.DataFrame,
                             vmin=.0, vmax=MAX_ENTROPY[n_phases])
     
     boundary = axis.contour(grid_x, grid_y, grid_z, 
-                            levels=[.50], c='.0', linestyles='-.')
+                            levels=[.50], linestyles='-.')
 
     axis.set_xlabel(var1)
     axis.set_ylabel(var2)
