@@ -68,9 +68,12 @@ def active_cycle(
         # -- if cycle 0 the new batch of point will be computed accoding to sampling mode
         # assert sampling_mode in SAMPLING_MODE_LIST, f"Error: sampling_mode '{sampling_mode}' is not in the list of modes, {SAMPLING_MODE_LIST}"
 
+        # create the feature space
+        # necessary for the active learnig routine (see alclf doc)
+        data.feature_space(scaling=True)
+
         # the new index are the main result of the algorithm as they represent
         # the new points that are going to be screened in the lab
-
         new_al_indices = alclf.acquisition.pointSampler(mode=sampling_mode).sample(X=data.X,
                                                                                    n=new_points_batch)
 
