@@ -34,12 +34,12 @@ FOLDERS_TREE = {
     'master_file' : MASTER_FILE_PATH+'/',
     'experiments' : {
         'asp250_lys100_NaCl_robotExp0' : EXP_REPO_PATH+'/0.Asp250_Lys100_manual_experiment/',
-        'robot001' : EXP_REPO_PATH+'/1.Asp200_Lys100_robot_test/',
+        'asp200_lys100_NaCl_robotExp1' : EXP_REPO_PATH+'/1.Asp200_Lys100_robot_experiment_1/',
     }
 }
 
 MAPPING_PHASES = {
-    1 : 0,
-    3 : 1,
-    2 : 2,
+    1 : 0,  # no phase separation
+    3 : 1,  # coacervate phase separation
+    2 : 2,  # aggregate ?
 }
