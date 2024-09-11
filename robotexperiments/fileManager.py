@@ -129,7 +129,7 @@ class MasterFileManager:
             if verbose:
                 print(self.master_df.tail(10))
 
-        self.master_file_version = len(self.master_folder)
+        self.master_file_version = int(self.master_folder[-1].split('.')[0].split('_')[-1])
         
 
     def append_data(self, new_data: pd.DataFrame, fill_value: Union[int,float,str]=None):
@@ -184,11 +184,11 @@ class MasterFileManager:
 
     def save_file(self, overwrite: bool=False) -> None:
         if not overwrite:
-            save_file_name = self.folders_tree['master_file']+self.master_file_name_format.format(self.master_file_version)
+            save_file_name = self.folders_tree['master_file']+self.master_file_name_format.format(self.master_file_version+1)
             assert save_file_name not in self.master_folder, f'File name identical to one already saved!'
             print(f'New file saved: {save_file_name}')
         elif overwrite:
-            save_file_name = self.folders_tree['master_file']+self.master_file_name_format.format(self.master_file_version-1)
+            save_file_name = self.folders_tree['master_file']+self.master_file_name_format.format(self.master_file_version)
             print(f'File saved & overwritten on {save_file_name}')
         self.master_df.to_csv(save_file_name, index=False,)
         
