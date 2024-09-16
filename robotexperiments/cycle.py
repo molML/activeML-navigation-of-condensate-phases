@@ -45,7 +45,10 @@ def active_cycle(
     # dir with all the experiment files
     experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
     # - create the cycle folder
-    os.mkdir(experiment_dir_path + f'/cycles/cycle_{cycle_number}/')
+    try:
+        os.mkdir(experiment_dir_path + f'/cycles/cycle_{cycle_number}/')
+    except:
+        print(f'Folder already exists ..')
     # dir to save current results
     cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
     # TODO: add assert statement and make the dir automatically generated (?)
