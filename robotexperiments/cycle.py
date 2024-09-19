@@ -49,6 +49,7 @@ def active_cycle(
         os.mkdir(experiment_dir_path + f'/cycles/cycle_{cycle_number}/')
     except:
         print(f'Folder already exists ..')
+        raise FileExistsError('Error: you are trying to overwrite the folder!')
     # dir to save current results
     cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
     # TODO: add assert statement and make the dir automatically generated (?)
