@@ -1,0 +1,9 @@
+{
+    "Experiment_ID" : "Asp200_Lys100_robotExp1_small_matrix",
+    "phase_diagram_variables" : {
+        "Conc_AP_Lys_100_(mM)" : {"start":0.1, "end":8.5, "ev":0.4},
+        "Conc_AP_Asp_200_(mM)" : {"start":0.1, "end":8.5, "ev":0.4},
+        "Conc_NaCl_(mM)" : {"start":50, "end":2075, "ev":100},
+        "Phase" : -1
+    }
+}
