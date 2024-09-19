@@ -3,15 +3,15 @@ import numpy as np
 import pandas as pd
 
 # Step 1: Define the ranges for the original variables
-range_x = np.arange(0.1,8.1,0.1)
-range_y = np.arange(0.1,8.1,0.1)
+range_x = np.arange(0.25,8.25,0.25)
+range_y = np.arange(0.25,8.25,0.25)
 
 # Create all combinations of x, y, and z
 combinations_xyz = list(itertools.product(range_x, range_y))
 
 # Step 2: Define the step size and maximum sum for a, b, c
 step = 100  # Define the step size
-max_sum = 2000  # Maximum allowed sum for a, b, and c
+max_sum = 1000  # Maximum allowed sum for a, b, and c
 
 # Generate the range for a, b, and c using frange function
 def frange(start, stop, step):
