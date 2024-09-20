@@ -1,5 +1,5 @@
 # -------------------------------------------------- #
-# Script for applying an active learning cycle
+# Script for plotting 2D phase diagram slices
 #
 #
 # AUTHOR: Andrea Gardin
