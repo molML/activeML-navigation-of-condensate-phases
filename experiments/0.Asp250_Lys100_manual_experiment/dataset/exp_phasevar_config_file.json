@@ -1,5 +1,5 @@
 {
-    "Experiment_ID": "Asp250_Lys100_manualEpx",
+    "Experiment_ID": "Asp250_Lys100_manualEpx_test_switch",
     "phase_diagram_variables": {
         "Conc_SIGMA_Asp_250_(mM)": [
             0.0625,
@@ -70,5 +70,5 @@
         ],
         "Phase": -1
     },
-    "execution": "Jul_23_2024-13:40:30"
+    "execution": "Sep_23_2024-11:34:28"
 }

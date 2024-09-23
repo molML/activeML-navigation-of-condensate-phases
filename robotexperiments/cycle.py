@@ -27,6 +27,7 @@ from typing import Any
 def active_cycle(
         experimentID: str,
         search_space_dataset: str,
+
         validated_dataset: str,
 
         cycle_number: int,
@@ -37,7 +38,9 @@ def active_cycle(
                  
         acquisition_mode: str,
         entropy_accuracy: int=1,
-        sampling_mode: str='FPS'
+        sampling_mode: str='FPS',
+
+        search_space_switch_from: str=None,
         ) -> None:
 
     # Init the experiment
@@ -60,6 +63,14 @@ def active_cycle(
     # local varaibles passed to the function
     save_to_jason(dictonary=locals(),
                   fout_name=output_files_name+f'_config_file')
+    
+    if search_space_switch_from is not None:
+        data_to_switch_from = pd.read_csv(experiment_dir_path+'/dataset/'+search_space_switch_from)
+        validated_df = data_to_switch_from[data_to_switch_from[TARGET_LABEL] != -1]
+        print(f'Switching data frame, using validated points from:\n{search_space_switch_from}')
+
+    elif search_space_switch_from is None:
+        validated_df = None
 
     # - read the search space dataframe
     data = alclf.DataLoader(
@@ -89,10 +100,11 @@ def active_cycle(
     elif cycle_number > 0:
 
         # -- checks for validated dataset
-        if validated_dataset:
+        if validated_df is None:
             # read the validated df removing the indicator labels (for merging purpouses)
             validated_df = read_validated_df(df_path=experiment_dir_path + f'/cycles/cycle_{cycle_number-1}/'+validated_dataset,
                                              remove_keys=INDICATOR_LABEL)
+
             # --- merge (update) the validated points into the search space df and overwrite it
             data.merge_validated_df(
                 validated_df=validated_df,
@@ -101,11 +113,17 @@ def active_cycle(
             )
             print(f'Merging the validated dataframe to main search space dataframe.')
         
-        else:
-            # the algorithm assumes that cycle 1 can be prepared from previous knowledge
-            # already inserted in a dataframe, hence no validation needed from cycle0 as
-            # there is no cycle0
-            assert cycle_number == 1, 'Validation dataframe not set, and cycle > 1!'
+        if validated_df is not None:
+            data_path_ = data._file_path
+            updated_df = pd.concat([validated_df, data.df]).drop_duplicates(keep='first').reset_index(drop=True)
+            updated_df.to_csv(data_path_, index=False)
+            # - read the search space dataframe
+            # ! TODO ! add mutable df method so that I can define the new df without
+            # doing this sad trick
+            data = alclf.DataLoader(
+                file_path=experiment_dir_path+'/dataset/'+search_space_dataset,
+                target=TARGET_LABEL
+            )
 
         # - create the feature space
         # - necessary for the active learnig routine (see alclf doc)
