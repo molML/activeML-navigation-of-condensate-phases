@@ -24,7 +24,7 @@ pdf_file_template = '/cycles/cycle_{}/'+experimentID+'_cycle{}_output_points_pdf
 entropy_decimals = 2
 x_min, x_max = -0.69, 0.69  # Adjustable range
 bin_size = 0.025  # Adjustable bin size
-exclude_min, exclude_max = -0.1, 0.1 # Define exclusion range (e.g., from -0.1 to 0.1)
+exclude_min, exclude_max = -0.05, 0.05 # Define exclusion range (e.g., from -0.1 to 0.1)
 cmap = cm.get_cmap('PiYG')
 
 # --- main
@@ -98,7 +98,7 @@ if __name__ == '__main__':
         ax[i].set_ylabel('count')
         ax[i].set_xlabel(r'$\Delta H$')
     fig.tight_layout()
-    fig.savefig('delta_h_histograms.png')
+    fig.savefig(CYCLES_DIR+'delta_h_histograms.png')
 
     ax1.plot(np.arange(n_plots), neg_h_list, ls='-', c=cmap(0.05), label=r'$H(\downarrow)$')
     ax1.plot(np.arange(n_plots), pos_h_list, ls='--', c=cmap(0.85), label=r'$H(\uparrow)$')
@@ -110,6 +110,6 @@ if __name__ == '__main__':
     ax1.grid(ls='--', alpha=.5)
     ax1.legend()
     fig1.tight_layout()
-    fig1.savefig('delta_h_trend.png')
+    fig1.savefig(CYCLES_DIR+'delta_h_trend.png')
 
     # plt.show()
