@@ -112,4 +112,4 @@ if __name__ == '__main__':
     fig1.tight_layout()
     fig1.savefig('delta_h_trend.png')
 
-    plt.show()
+    # plt.show()
