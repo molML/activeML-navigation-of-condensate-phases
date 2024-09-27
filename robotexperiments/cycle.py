@@ -9,7 +9,7 @@ import os
 import joblib
 import numpy as np
 
-from robotexperiments.dataManager import read_validated_df
+from robotexperiments.dataManager import read_validated_df, df_merger
 from robotexperiments.utils import add_keyID_to_dataframe, save_to_jason
 from robotexperiments.formats import FOLDERS_TREE, INDICATOR_LABEL, TARGET_LABEL, UNASSIGNED_TARGET_VALUES, OUTPUT_FILE_PATTERN
 
@@ -113,9 +113,17 @@ def active_cycle(
             )
             print(f'Merging the validated dataframe to main search space dataframe.')
         
-        if validated_df is not None:
+        elif validated_df is not None:
             data_path_ = data._file_path
-            updated_df = pd.concat([validated_df, data.df]).drop_duplicates(keep='first').reset_index(drop=True)
+            validated_df_last_cycle = read_validated_df(df_path=experiment_dir_path + f'/cycles/cycle_{cycle_number-1}/'+validated_dataset,
+                                                        remove_keys=INDICATOR_LABEL)
+            
+            updated_df = df_merger(df1=df_merger(df1=validated_df, 
+                                                 df2=validated_df_last_cycle, 
+                                                 target_col=TARGET_LABEL),
+                                   df2=data.df, 
+                                   target_col=TARGET_LABEL)
+
             updated_df.to_csv(data_path_, index=False)
             # - read the search space dataframe
             # ! TODO ! add mutable df method so that I can define the new df without
