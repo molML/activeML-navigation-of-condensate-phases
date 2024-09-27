@@ -77,6 +77,9 @@ def active_cycle(
         file_path=experiment_dir_path+'/dataset/'+search_space_dataset,
         target=TARGET_LABEL
     )
+    data_path_ = data._file_path
+    # creates a backup before the appending of the current cycle (effectively a)
+    data.df.to_csv(data_path_.replace('.csv', f'_cycle{cycle_number}.csv'))
 
     # ----------------------------------------------------------------------------------------------
     # - checks for cycle 0
@@ -114,7 +117,6 @@ def active_cycle(
             print(f'Merging the validated dataframe to main search space dataframe.')
         
         elif validated_df is not None:
-            data_path_ = data._file_path
             validated_df_last_cycle = read_validated_df(df_path=experiment_dir_path + f'/cycles/cycle_{cycle_number-1}/'+validated_dataset,
                                                         remove_keys=INDICATOR_LABEL)
             
