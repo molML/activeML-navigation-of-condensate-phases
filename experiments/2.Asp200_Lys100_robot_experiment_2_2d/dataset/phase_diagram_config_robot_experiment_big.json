@@ -1,0 +1,9 @@
+{
+    "Experiment_ID" : "Asp200_Lys100_150mM_NaCl_matrix",
+    "phase_diagram_variables" : {
+        "Conc_AP_Lys_100_(mM)" : {"start":0.1, "end":8.2, "ev":0.1},
+        "Conc_AP_Asp_200_(mM)" : {"start":0.1, "end":8.2, "ev":0.1},
+        "Conc_NaCl_(mM)" : [150],
+        "Phase" : -1
+    }
+}
