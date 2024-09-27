@@ -1,0 +1,32 @@
+{
+    "experimentID": "asp200_lys100_NaCl_robotExp1",
+    "search_space_dataset": "DOE_Asp200_Lys100_robotExp1_small_matrix_3Dim.csv",
+    "validated_dataset": null,
+    "cycle_number": 0,
+    "new_points_batch": 16,
+    "classifier_model": "GaussianProcessClassifier",
+    "classifier_dict": {
+        "kernel": [
+            "*",
+            {
+                "type": "C",
+                "constant_value": 1.0
+            },
+            {
+                "type": "RBF",
+                "length_scale": 1.0
+            }
+        ],
+        "n_restarts_optimizer": 5,
+        "max_iter_predict": 150,
+        "n_jobs": 3
+    },
+    "acquisition_mode": "exploration",
+    "entropy_accuracy": 2,
+    "sampling_mode": "FPS",
+    "search_space_switch_from": null,
+    "experiment_dir_path": "/home/andreag/Work/1.main_project/git_repo/RobotLabExperiments/experiments/1.Asp200_Lys100_robot_experiment_1/",
+    "cycle_output_dir_path": "/home/andreag/Work/1.main_project/git_repo/RobotLabExperiments/experiments/1.Asp200_Lys100_robot_experiment_1//cycles/cycle_0/",
+    "output_files_name": "/home/andreag/Work/1.main_project/git_repo/RobotLabExperiments/experiments/1.Asp200_Lys100_robot_experiment_1//cycles/cycle_0/asp200_lys100_NaCl_robotExp1_cycle0",
+    "execution": "Sep_24_2024-17:54:43"
+}

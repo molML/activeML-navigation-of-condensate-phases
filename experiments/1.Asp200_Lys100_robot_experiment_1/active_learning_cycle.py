@@ -26,7 +26,7 @@ acquisition_mode_tmp = 'exploration'
 experiment_cycle_dict_tmp = {
     'experimentID': experimentID,
     'cycle_number' : cycle_number_tmp,
-    'search_space_dataset': 'DOE_Asp200_Lys100_robotExp1_3Dim.csv',
+    'search_space_dataset': 'DOE_Asp200_Lys100_robotExp1_small_matrix_3Dim.csv',
     'validated_dataset' : f'{experimentID}_cycle{cycle_number_tmp-1}_validated_points.csv',
     'new_points_batch' : new_points_batch_tmp,
     'classifier_model' : 'GaussianProcessClassifier',
