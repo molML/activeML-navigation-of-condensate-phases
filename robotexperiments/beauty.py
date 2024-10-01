@@ -8,7 +8,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.axes import Axes
-from typing import Tuple, List
+from typing import Tuple, List, Union
 
 # -------------------------------------------------- #
 # --- FIG & AXES
@@ -169,6 +169,91 @@ def plot2D_3variable_points(df: pd.DataFrame,
     axis.set_xlabel(var1)
     axis.set_ylabel(var2)
     axis.set_title(constant_var[0]+f'={constant_var[1]}')
+
+
+def plot2D_pdfsurfaceplot(df: pd.DataFrame,
+                       pdf: np.ndarray,
+                       var1: str,
+                       var2: str,
+                       constant_var: Union[bool,Tuple[str,float]],
+                       screened_points_ndx: List[int],
+                       new_points_ndx: List[int],
+                       show_points: bool,
+                       axis: Axes) -> None:
+    
+    x = df[var1]
+    y = df[var2]
+
+    if isinstance(constant_var, Tuple):
+        # get the right 3d variable plane
+        masked_2d_plane_df = df[df[constant_var[0]] == constant_var[1]]
+        # get the index of the 3d variable plane points
+        masked_2d_plane_index = masked_2d_plane_df.index.to_numpy()
+        # build the 2d plot space
+        XX = masked_2d_plane_df[[var1, var2]].to_numpy()
+        X = XX[:,0]
+        Y = XX[:,1]
+
+    elif not constant_var:
+        X = x
+        Y = y
+        masked_2d_plane_index = df.index.to_numpy()
+
+    # show the points
+    if show_points:
+        surface_edges = .3
+        # compute the intersection between the screened and the plane indexes
+        intersection_screened = list(set(masked_2d_plane_index) & set(screened_points_ndx))
+        if len(intersection_screened) > 0:
+            axis.scatter(x[intersection_screened], y[intersection_screened], 
+                         s=100,
+                         c='1.', marker='o', edgecolors='0.', zorder=5)
+            axis.scatter(x[intersection_screened], y[intersection_screened], 
+                         s=50,
+                         c='0.', marker='x', edgecolors='0.', zorder=6)
+            
+        intersection_newpoints = list(set(masked_2d_plane_index) & set(new_points_ndx))
+        if len(intersection_newpoints) > 0:
+            axis.scatter(x[intersection_newpoints], y[intersection_newpoints], 
+                         s=100,
+                         c='1.', marker='o', edgecolors='0.', zorder=5)
+    else:
+        surface_edges = .0
+
+    for phase in range(pdf.shape[1]):
+
+        # Determine the range for X and Y
+        x_min, x_max = X.min()-surface_edges, X.max()+surface_edges
+        y_min, y_max = Y.min()-surface_edges, Y.max()+surface_edges
+
+        Z = pdf[masked_2d_plane_index, phase]
+
+        # Generate a grid and interpolate the diffusion coefficients
+        bins=100j
+        grid_x, grid_y = np.mgrid[x_min:x_max:bins, y_min:y_max:bins]
+        grid_z = griddata((X, Y), Z, (grid_x, grid_y), method='cubic')
+
+        grid_z = np.round(grid_z, decimals=4)
+        # grid_z = ensure_min_max(array=grid_z,
+        #                         desired_min=0.,
+        #                         desired_max=1.)
+
+        contours = axis.contour(grid_x, grid_y, grid_z, 
+                                levels=[.53, .7, .8, .9, .97, 1.], colors='.0', 
+                                vmin=0., vmax=1.)
+        axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
+
+        contours = axis.contourf(grid_x, grid_y, grid_z, 
+                                levels=[.53, .7, .8, .9, .97, 1.], cmap=CMAPS[phase], 
+                                vmin=0., vmax=1.,)
+        
+        if phase == 0:
+            boundary = axis.contour(grid_x, grid_y, grid_z, 
+                                    levels=[.50], linestyles='-.')
+
+        axis.set_xlabel(var1)
+        axis.set_ylabel(var2)
+        axis.set_title(constant_var[0]+f'={constant_var[1]}')
 
 
 def plot2D_3variable_pdfsurface(df: pd.DataFrame,
@@ -339,3 +424,91 @@ def plot2D_3variable_entropysurface(df: pd.DataFrame,
     axis.set_xlabel(var1)
     axis.set_ylabel(var2)
     axis.set_title(constant_var[0]+f'={constant_var[1]}')
+
+
+def plot2D_entropysurfaceplot(df: pd.DataFrame,
+                       pdf: np.ndarray,
+                       var1: str,
+                       var2: str,
+                       constant_var: Union[bool,Tuple[str,float]],
+                       screened_points_ndx: List[int],
+                       new_points_ndx: List[int],
+                       show_points: bool,
+                       axis: Axes) -> None:
+    
+    x = df[var1]
+    y = df[var2]
+
+    if isinstance(constant_var, Tuple):
+        # get the right 3d variable plane
+        masked_2d_plane_df = df[df[constant_var[0]] == constant_var[1]]
+        # get the index of the 3d variable plane points
+        masked_2d_plane_index = masked_2d_plane_df.index.to_numpy()
+        # build the 2d plot space
+        XX = masked_2d_plane_df[[var1, var2]].to_numpy()
+        X = XX[:,0]
+        Y = XX[:,1]
+
+    elif not constant_var:
+        X = x
+        Y = y
+        masked_2d_plane_index = df.index.to_numpy()
+
+    # show the points
+    if show_points:
+        surface_edges = .3
+        # compute the intersection between the screened and the plane indexes
+        intersection_screened = list(set(masked_2d_plane_index) & set(screened_points_ndx))
+        if len(intersection_screened) > 0:
+            axis.scatter(x[intersection_screened], y[intersection_screened], 
+                         s=100,
+                         c='1.', marker='o', edgecolors='0.', zorder=5)
+            axis.scatter(x[intersection_screened], y[intersection_screened], 
+                         s=50,
+                         c='0.', marker='x', edgecolors='0.', zorder=6)
+            
+        intersection_newpoints = list(set(masked_2d_plane_index) & set(new_points_ndx))
+        if len(intersection_newpoints) > 0:
+            axis.scatter(x[intersection_newpoints], y[intersection_newpoints], 
+                         s=100,
+                         c='1.', marker='o', edgecolors='0.', zorder=5)
+    else:
+        surface_edges = .0
+
+    # Determine the range for X and Y
+    x_min, x_max = X.min()-surface_edges, X.max()+surface_edges
+    y_min, y_max = Y.min()-surface_edges, Y.max()+surface_edges
+
+    Z = pdf[masked_2d_plane_index, :]
+    H = np.around(scipy.stats.entropy(pk=Z, axis=1), 4)
+
+    n_phases = Z.shape[1]
+
+    # Generate a grid and interpolate the diffusion coefficients
+    bins=100j
+    grid_x, grid_y = np.mgrid[x_min:x_max:bins, y_min:y_max:bins]
+
+    grid_z = griddata((X, Y), Z[:, 0], (grid_x, grid_y), method='cubic')
+
+    grid_h = griddata((X, Y), H, (grid_x, grid_y), method='cubic')
+    grid_h = np.round(grid_h, decimals=5)
+    # grid_h = ensure_min_max(array=grid_h,
+    #                         desired_min=0.,
+    #                         desired_max=MAX_ENTROPY[n_phases])
+
+    contours = axis.contour(grid_x, grid_y, grid_h, 
+                            levels=np.linspace(0,MAX_ENTROPY[n_phases]+.1, 7), colors='.0', 
+                            vmin=.0, vmax=MAX_ENTROPY[n_phases])
+    axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
+
+    contours = axis.contourf(grid_x, grid_y, grid_h, 
+                            levels=np.linspace(0,MAX_ENTROPY[n_phases]+.1, 7), cmap='plasma', 
+                            vmin=.0, vmax=MAX_ENTROPY[n_phases])
+    
+    boundary = axis.contour(grid_x, grid_y, grid_z, 
+                            levels=[.50], linestyles='-.')
+
+    axis.set_xlabel(var1)
+    axis.set_ylabel(var2)
+    axis.set_title(constant_var[0]+f'={constant_var[1]}')
+
