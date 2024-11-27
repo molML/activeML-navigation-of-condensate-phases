@@ -1,0 +1,9 @@
+{
+    "Experiment_ID" : "RoboLab008_Lys100_Asp200_NaCl_Matrix_R2",
+    "phase_diagram_variables" : {
+        "Conc_AP_Lys_100_(mM)" : {"start":0.1, "end":8.2, "ev":0.1},
+        "Conc_AP_Asp_200_(mM)" : {"start":0.1, "end":8.2, "ev":0.1},
+        "Conc_NaCl_(mM)" : {"start":50, "end":2075, "ev":25},
+        "Phase" : -1
+    }
+}

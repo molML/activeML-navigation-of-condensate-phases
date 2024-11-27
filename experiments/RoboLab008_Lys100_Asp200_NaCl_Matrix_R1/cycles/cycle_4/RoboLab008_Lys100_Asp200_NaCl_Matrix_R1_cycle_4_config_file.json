@@ -1,0 +1,32 @@
+{
+    "experimentID": "RoboLab008_Lys100_Asp200_NaCl_Matrix_R1",
+    "search_space_dataset": "DOE_Asp200_Lys100_NaCl_Matrix_R1.csv",
+    "validated_dataset": "RoboLab008_Lys100_Asp200_NaCl_Matrix_R1_cycle_3_validated_points.csv",
+    "cycle_number": 4,
+    "new_points_batch": 32,
+    "classifier_model": "GaussianProcessClassifier",
+    "classifier_dict": {
+        "kernel": [
+            "*",
+            {
+                "type": "C",
+                "constant_value": 1.0
+            },
+            {
+                "type": "RBF",
+                "length_scale": 1.0
+            }
+        ],
+        "n_restarts_optimizer": 5,
+        "max_iter_predict": 150,
+        "n_jobs": 16
+    },
+    "acquisition_mode": "exploration",
+    "entropy_accuracy": 1,
+    "sampling_mode": "FPS",
+    "search_space_switch_from": null,
+    "experiment_dir_path": "E:\\RoboLabExperiments\\experiments\\RoboLab008_Lys100_Asp200_NaCl_Matrix_R1\\",
+    "cycle_output_dir_path": "E:\\RoboLabExperiments\\experiments\\RoboLab008_Lys100_Asp200_NaCl_Matrix_R1\\cycles\\cycle_4\\machine_learning\\",
+    "output_files_name": "E:\\RoboLabExperiments\\experiments\\RoboLab008_Lys100_Asp200_NaCl_Matrix_R1\\cycles\\cycle_4\\machine_learning\\RoboLab008_Lys100_Asp200_NaCl_Matrix_R1_cycle_4",
+    "execution": "Oct_03_2024-10:37:03"
+}
