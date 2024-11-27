@@ -33,8 +33,11 @@ MASTER_FILE_PATH = os.path.abspath(os.path.join(BASE_DIR, '../master_file/'))
 FOLDERS_TREE = {
     'master_file' : MASTER_FILE_PATH+'/',
     'experiments' : {
-        'asp250_lys100_NaCl_robotExp0' : EXP_REPO_PATH+'/0.Asp250_Lys100_manual_experiment/',
-        'asp200_lys100_NaCl_robotExp1' : EXP_REPO_PATH+'/1.Asp200_Lys100_robot_experiment_1/',
+        'RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R1' : EXP_REPO_PATH+'/RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R1/',
+        'RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R2' : EXP_REPO_PATH+'/RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R2/',
+        'RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R3' : EXP_REPO_PATH+'/RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R3/',
+        'RoboLab008_Lys100_Asp200_NaCl_Matrix_R1' : EXP_REPO_PATH+'/RoboLab008_Lys100_Asp200_NaCl_Matrix_R1/',
+        'RoboLab008_Lys100_Asp200_NaCl_Matrix_R2' : EXP_REPO_PATH+'/RoboLab008_Lys100_Asp200_NaCl_Matrix_R2/',        
     }
 }
 
