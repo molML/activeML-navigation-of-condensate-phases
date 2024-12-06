@@ -1,0 +1,9 @@
+{
+    "Experiment_ID" : "New_Exp_ID",
+    "phase_diagram_variables" : {
+        "X" : {"start":0.1, "end":8.0, "ev":0.1},
+        "Y" : {"start":0.1, "end":8.0, "ev":0.1},
+        "Z" : {"start":100, "end":2000, "ev":100},
+        "Target" : -1
+    }
+}
