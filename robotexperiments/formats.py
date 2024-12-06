@@ -28,7 +28,7 @@ MASTER_FILE_COLUMNS = [
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 EXP_REPO_PATH = os.path.abspath(os.path.join(BASE_DIR, '../experiments/'))
-MASTER_FILE_PATH = os.path.abspath(os.path.join(BASE_DIR, '../master_file/'))
+MASTER_FILE_PATH = os.path.abspath(os.path.join(BASE_DIR, EXP_REPO_PATH+'/master_file/'))
 
 FOLDERS_TREE = {
     'master_file' : MASTER_FILE_PATH+'/',
