@@ -5,7 +5,7 @@ channels:
 dependencies:
   - python=3.12
   - numpy<2.0
-  - scikit-learn
+  - scikit-learn=1.5.2
   - scipy
   - pandas
   - matplotlib
@@ -14,5 +14,5 @@ dependencies:
   - pip
   - pip:
     - pyyaml
-    - ../ActiveLearningCLassiFier/
+    - git+https://github.com/AGardinon/ActiveLearningCLassiFier.git@4123b09886b75842ffd21b366686f169bfe20f6f
     - -e ./
