@@ -1,0 +1,17 @@
+{
+    "Experiment_ID": "Asp30_Lys20_150mM_NaCl_matrix_R2",
+    "phase_diagram_variables": {
+        "Conc_AP_Lys_20_2_(mM)": {
+            "start": 0.1,
+            "end": 8.2,
+            "ev": 0.1
+        },
+        "Conc_AP_Asp_30_2_(mM)": {
+            "start": 0.1,
+            "end": 8.2,
+            "ev": 0.1
+        },
+        "Phase": -1
+    },
+    "execution": "Sep_27_2024-15:46:15"
+}
