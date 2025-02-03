@@ -41,6 +41,8 @@ def active_cycle(
         sampling_mode: str='FPS',
 
         search_space_switch_from: str=None,
+
+        backup_search_space_df: bool=False,
         ) -> None:
 
     # Init the experiment
@@ -58,7 +60,7 @@ def active_cycle(
     # TODO: add assert statement and make the dir automatically generated (?)
 
     # - OUTPUTS
-    output_files_name = cycle_output_dir_path+f'{experimentID}_cycle{cycle_number}'
+    output_files_name = cycle_output_dir_path+f'{experimentID}_cycle_{cycle_number}'
 
     # local varaibles passed to the function
     save_to_jason(dictonary=locals(),
@@ -79,7 +81,8 @@ def active_cycle(
     )
     data_path_ = data._file_path
     # creates a backup before the appending of the current cycle (effectively a)
-    data.df.to_csv(data_path_.replace('.csv', f'_cycle{cycle_number}.csv'))
+    if backup_search_space_df:
+        data.df.to_csv(data_path_.replace('.csv', f'_cycle_{cycle_number}.csv'), index=False)
 
     # ----------------------------------------------------------------------------------------------
     # - checks for cycle 0
@@ -318,7 +321,7 @@ def extract_validated_points(experimentID: str,
     # dir to save current results
     cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
     
-    output_file_name = cycle_output_dir_path+f'{experimentID}_cycle{cycle_number}'+f'_{VALIDATED_FILE_PATTERN}.csv'
+    output_file_name = cycle_output_dir_path+f'{experimentID}_cycle_{cycle_number}'+f'_{VALIDATED_FILE_PATTERN}.csv'
 
     dataset_dir_path = experiment_dir_path + '/dataset/'
     dataset_init_file = get_files_from(folder=dataset_dir_path,
@@ -348,3 +351,42 @@ def extract_validated_points(experimentID: str,
     validated_points_df.to_csv(output_file_name, index=False)
 
     print(f'Saved to: {output_file_name}')
+
+
+# ------------------------------------------------
+# IN VITRO VALIDATION
+# ------------------------------------------------
+
+def invitro_validation(experimentID: str, 
+                       cycle_number: int,
+                       grount_truth_dataset: str) -> None:
+    
+    # - set the paths
+    experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
+    # dir with the cycle resutls
+    cycle_output_dir_path = experiment_dir_path + f'/cycles/cycle_{cycle_number}/'
+
+    cycle_output_csv_files = get_files_from(folder=cycle_output_dir_path, verbose=False)
+    # may be getto
+    cycle_output_points_csv = select_first_item_with_pattern(strings=cycle_output_csv_files,
+                                                             pattern=OUTPUT_FILE_PATTERN)
+    
+    output_points_df = pd.read_csv(cycle_output_dir_path+cycle_output_points_csv).drop(columns=INDICATOR_LABEL)
+
+    gt_df = pd.read_csv(grount_truth_dataset)
+
+    gt_target_columns = [col for col in gt_df.columns.to_list() if col != TARGET_LABEL]
+
+    # Extract 'Phase' info from the output_df
+    invitro_output_df = pd.merge(
+        output_points_df.drop(columns=[TARGET_LABEL]),
+        gt_df,
+        on=gt_target_columns,
+        how='left'  # granted that all rows will match
+    )
+
+    output_file_name = cycle_output_dir_path+f'{experimentID}_cycle_{cycle_number}'+f'_{VALIDATED_FILE_PATTERN}.csv'
+
+    invitro_output_df.to_csv(output_file_name, index=False)
+
+    print(invitro_output_df)

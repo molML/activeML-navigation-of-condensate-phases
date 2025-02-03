@@ -114,6 +114,7 @@ class MasterFileManager:
 
         if len(self.master_folder) == 0:
             print('Creating new master file')
+            self.master_file_version = 0
             self.master_df = pd.DataFrame(columns=self.master_columns)
             self.master_file = self.master_file_name_format.format(len(self.master_folder))
             self.master_df.to_csv(
@@ -129,7 +130,7 @@ class MasterFileManager:
             if verbose:
                 print(self.master_df.tail(10))
 
-        self.master_file_version = int(self.master_folder[-1].split('.')[0].split('_')[-1])
+            self.master_file_version = int(self.master_folder[-1].split('.')[0].split('_')[-1])
         
 
     def append_data(self, new_data: pd.DataFrame, fill_value: Union[int,float,str]=None):
