@@ -23,3 +23,18 @@ If already present, it will give a summary of the last available version of it.
 python src/script/experiments/experiment_init.py -phasevar config.json
 ```
 Reads the `config.json` file and creates the "naked" (_i.e._, withouth Phase annotaions) search space matrix.
+
+-   **Running the _in-silico_ experiments**
+
+After setting up the parameters in the `robolab_insilico_experiments.py` script file, one can run the simulated cycles.
+```python
+python ./robolab_insilico_experiments.py
+```
+
+The file `log.log` contains a sample output for running 2 cycles (plus the zero-th).
+
+-   **Resetting the experiments**
+
+To reset the experiments ones needs to remove the `cycles/cycle_*` folders and reset the search space data matrix, as the latter gets updated at every cycle with the validated (or extracted in this case) labels.
+
+The `master_files_*` are only for storing purposes and mostly usful in a real experimental setting.
