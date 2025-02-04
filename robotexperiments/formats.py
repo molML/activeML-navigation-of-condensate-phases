@@ -29,7 +29,7 @@ FOLDERS_TREE = {
         'RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R3' : EXP_REPO_PATH+'/RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_R3/',
         'RoboLab008_Lys100_Asp200_NaCl_Matrix_R1' : EXP_REPO_PATH+'/RoboLab008_Lys100_Asp200_NaCl_Matrix_R1/',
         'RoboLab008_Lys100_Asp200_NaCl_Matrix_R2' : EXP_REPO_PATH+'/RoboLab008_Lys100_Asp200_NaCl_Matrix_R2/',
-        'RoboLab008_Lys100_Asp200_NaCl_Matrix_invitro_R1' : EXP_REPO_PATH+'/RoboLab008_Lys100_Asp200_NaCl_Matrix_invitro_R1/'
+        'RoboLab008_Lys100_Asp200_NaCl_Matrix_insilico_R1' : EXP_REPO_PATH+'/RoboLab008_Lys100_Asp200_NaCl_Matrix_insilico_R1/'
     }
 }
 

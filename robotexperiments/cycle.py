@@ -43,6 +43,7 @@ def active_cycle(
         search_space_switch_from: str=None,
 
         backup_search_space_df: bool=False,
+        config_parameters_dump: bool=False,
         ) -> None:
 
     # Init the experiment
@@ -63,8 +64,9 @@ def active_cycle(
     output_files_name = cycle_output_dir_path+f'{experimentID}_cycle_{cycle_number}'
 
     # local varaibles passed to the function
-    save_to_jason(dictonary=locals(),
-                  fout_name=output_files_name+f'_config_file')
+    if config_parameters_dump:
+        save_to_jason(dictonary=locals(),
+                      fout_name=output_files_name+f'_config_file')
     
     if search_space_switch_from is not None:
         data_to_switch_from = pd.read_csv(experiment_dir_path+'/dataset/'+search_space_switch_from)
@@ -290,10 +292,15 @@ def update_masterfile(experimentID: str,
     # may be getto
     cycle_validated_points_csv = select_first_item_with_pattern(strings=cycle_output_csv_files,
                                                                 pattern=VALIDATED_FILE_PATTERN)
-    # TODO: improve this (?)
+    
+    cycle_indicator_file = select_first_item_with_pattern(strings=cycle_output_csv_files,
+                                                          pattern='barcodes')
+    indicator_df = pd.read_csv(cycle_output_dir_path+cycle_indicator_file)
 
     validated_points_df = pd.read_csv(cycle_output_dir_path+cycle_validated_points_csv)
     print(f'Output file with validated points:\n{cycle_validated_points_csv}')
+
+    validated_points_df[INDICATOR_LABEL] = indicator_df[INDICATOR_LABEL]
 
     manager.update_data_values(updated_data=validated_points_df,
                                reference_key=INDICATOR_LABEL)
