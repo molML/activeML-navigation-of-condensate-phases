@@ -6,7 +6,7 @@
 
 import pprint
 from robotexperiments.formats import GT_FILE_PATH
-from robotexperiments.cycle import active_cycle, append_to_masterfile, update_masterfile, invitro_validation
+from robotexperiments.cycle import active_cycle, append_to_masterfile, update_masterfile, insilico_validation
 
 # --- Variables
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
                              fill_value=0)
 
         # in-vitro validation from gt dataset for current cycle
-        invitro_validation(experimentID=experimentID,
+        insilico_validation(experimentID=experimentID,
                            cycle_number=cycle,
                            grount_truth_dataset=GT_DB)
         

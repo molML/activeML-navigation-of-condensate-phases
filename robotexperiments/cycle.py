@@ -364,9 +364,9 @@ def extract_validated_points(experimentID: str,
 # IN VITRO VALIDATION
 # ------------------------------------------------
 
-def invitro_validation(experimentID: str, 
-                       cycle_number: int,
-                       grount_truth_dataset: str) -> None:
+def insilico_validation(experimentID: str,
+                        cycle_number: int,
+                        grount_truth_dataset: str) -> None:
     
     # - set the paths
     experiment_dir_path = FOLDERS_TREE['experiments'][experimentID]
