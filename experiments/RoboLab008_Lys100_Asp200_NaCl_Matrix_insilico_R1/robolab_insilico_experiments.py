@@ -12,14 +12,14 @@ from robotexperiments.cycle import active_cycle, append_to_masterfile, update_ma
 
 experimentID = 'RoboLab008_Lys100_Asp200_NaCl_Matrix_insilico_R1'
 validated_datasetID = '{}_cycle_{}_validated_points.csv'
-new_points_batch = 18
+new_points_batch = 32
 acquisition_mode = 'exploration'
 
 # - gt
 GT_DB = GT_FILE_PATH+'/RoboLab008_GT/RoboLab008_GT.csv'
 
 # - number of total cycles (excluded the zero-th cycle)
-N_CYCLES = 2
+N_CYCLES = 21
 
 # --- main
 
