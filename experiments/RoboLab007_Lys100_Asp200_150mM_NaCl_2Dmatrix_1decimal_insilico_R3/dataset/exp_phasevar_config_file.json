@@ -1,0 +1,17 @@
+{
+    "Experiment_ID": "RoboLab007_Lys100_Asp200_150mM_NaCl_2Dmatrix_1decimal_insilico_R2",
+    "phase_diagram_variables": {
+        "Conc_AP_Lys_100_(mM)": {
+            "start": 0.1,
+            "end": 8.2,
+            "ev": 0.1
+        },
+        "Conc_AP_Asp_200_(mM)": {
+            "start": 0.1,
+            "end": 8.2,
+            "ev": 0.1
+        },
+        "Phase": -1
+    },
+    "execution": "Apr_10_2025-09:18:23"
+}
