@@ -13,8 +13,60 @@ import time
 import uuid
 from datetime import datetime
 import pandas as pd
+import numpy as np
+from scipy.spatial import distance
 from types import SimpleNamespace
 from typing import Union, List, Tuple
+
+# -------------------------------------------------- #
+# --- JSD
+
+def js_divergence(p, q):
+    # Convert to numpy arrays
+    p = np.array(p)
+    q = np.array(q)
+    
+    # Add a small value to avoid log(0)
+    epsilon = 1e-10
+    p = np.clip(p, epsilon, 1)
+    q = np.clip(q, epsilon, 1)
+    
+    # Compute JSD
+    jsd = distance.jensenshannon(p, q)
+    
+    return jsd
+
+
+def js_divergence_classwise(p, q):
+    # Compare Class 0
+    jsd_class0 = js_divergence(p[:, 0], q[:, 0])
+    
+    # Compare Class 1
+    jsd_class1 = js_divergence(p[:, 1], q[:, 1])
+    
+    return jsd_class0, jsd_class1
+
+
+def js_divergence_matrix(p, q):
+    # Ensure input arrays are numpy arrays
+    p = np.array(p)
+    q = np.array(q)
+    
+    # Add a small value to avoid log(0)
+    epsilon = 1e-10
+    p = np.clip(p, epsilon, 1)
+    q = np.clip(q, epsilon, 1)
+    
+    # Normalize row-wise to ensure they are valid probability distributions
+    p = p / p.sum(axis=1, keepdims=True)
+    q = q / q.sum(axis=1, keepdims=True)
+    
+    # Calculate row-wise JSD
+    jsd_values = np.array([distance.jensenshannon(p[i], q[i]) for i in range(p.shape[0])])
+    
+    # Return the mean JSD across all rows
+    return np.mean(jsd_values)
+
 
 # -------------------------------------------------- #
 # --- custom exception
