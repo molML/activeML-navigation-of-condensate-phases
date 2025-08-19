@@ -1,0 +1,9 @@
+{
+    "Experiment_ID" : "RoboLabSynt_2D_A",
+    "phase_diagram_variables" : {
+        "x" : {"start":0.1, "end":8.2, "ev":0.1},
+        "y" : {"start":0.1, "end":8.2, "ev":0.1},
+        "Phase" : -1
+    }
+}
+
