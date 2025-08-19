@@ -193,6 +193,7 @@ def plot2D_pdfsurfaceplot(df: pd.DataFrame,
         XX = masked_2d_plane_df[[var1, var2]].to_numpy()
         X = XX[:,0]
         Y = XX[:,1]
+        axis.set_title(constant_var[0]+f'={constant_var[1]}')
 
     elif not constant_var:
         X = x
@@ -231,17 +232,17 @@ def plot2D_pdfsurfaceplot(df: pd.DataFrame,
         # Generate a grid and interpolate the diffusion coefficients
         bins=100j
         grid_x, grid_y = np.mgrid[x_min:x_max:bins, y_min:y_max:bins]
-        grid_z = griddata((X, Y), Z, (grid_x, grid_y), method='cubic')
+        grid_z = griddata((X, Y), Z, (grid_x, grid_y), method='linear')
 
         grid_z = np.round(grid_z, decimals=4)
         # grid_z = ensure_min_max(array=grid_z,
         #                         desired_min=0.,
         #                         desired_max=1.)
 
-        contours = axis.contour(grid_x, grid_y, grid_z, 
-                                levels=[.53, .7, .8, .9, .97, 1.], colors='.0', 
-                                vmin=0., vmax=1.)
-        axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
+        # contours = axis.contour(grid_x, grid_y, grid_z, 
+        #                         levels=[.53, .7, .8, .9, .97, 1.], colors='.0', 
+        #                         vmin=0., vmax=1.)
+        # axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
 
         contours = axis.contourf(grid_x, grid_y, grid_z, 
                                 levels=[.53, .7, .8, .9, .97, 1.], cmap=CMAPS[phase], 
@@ -253,7 +254,6 @@ def plot2D_pdfsurfaceplot(df: pd.DataFrame,
 
         axis.set_xlabel(var1)
         axis.set_ylabel(var2)
-        axis.set_title(constant_var[0]+f'={constant_var[1]}')
 
 
 def plot2D_3variable_pdfsurface(df: pd.DataFrame,
@@ -451,6 +451,7 @@ def plot2D_entropysurfaceplot(df: pd.DataFrame,
         XX = masked_2d_plane_df[[var1, var2]].to_numpy()
         X = XX[:,0]
         Y = XX[:,1]
+        axis.set_title(constant_var[0]+f'={constant_var[1]}')
 
     elif not constant_var:
         X = x
@@ -491,18 +492,18 @@ def plot2D_entropysurfaceplot(df: pd.DataFrame,
     bins=100j
     grid_x, grid_y = np.mgrid[x_min:x_max:bins, y_min:y_max:bins]
 
-    grid_z = griddata((X, Y), Z[:, 0], (grid_x, grid_y), method='cubic')
+    grid_z = griddata((X, Y), Z[:, 0], (grid_x, grid_y), method='linear')
 
-    grid_h = griddata((X, Y), H, (grid_x, grid_y), method='cubic')
+    grid_h = griddata((X, Y), H, (grid_x, grid_y), method='linear')
     grid_h = np.round(grid_h, decimals=5)
     # grid_h = ensure_min_max(array=grid_h,
     #                         desired_min=0.,
     #                         desired_max=MAX_ENTROPY[n_phases])
 
-    contours = axis.contour(grid_x, grid_y, grid_h, 
-                            levels=np.linspace(0,MAX_ENTROPY[n_phases]+.1, 7), colors='.0', 
-                            vmin=.0, vmax=MAX_ENTROPY[n_phases])
-    axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
+    # contours = axis.contour(grid_x, grid_y, grid_h, 
+    #                         levels=np.linspace(0,MAX_ENTROPY[n_phases]+.1, 7), colors='.0', 
+    #                         vmin=.0, vmax=MAX_ENTROPY[n_phases])
+    # axis.clabel(contours, inline=True, fontsize=5, fmt='%1.2f')
 
     contours = axis.contourf(grid_x, grid_y, grid_h, 
                             levels=np.linspace(0,MAX_ENTROPY[n_phases]+.1, 7), cmap='plasma', 
@@ -513,5 +514,5 @@ def plot2D_entropysurfaceplot(df: pd.DataFrame,
 
     axis.set_xlabel(var1)
     axis.set_ylabel(var2)
-    axis.set_title(constant_var[0]+f'={constant_var[1]}')
+    
 
