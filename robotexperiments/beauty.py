@@ -8,6 +8,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.axes import Axes
+import plotly.graph_objects as go
 from typing import Tuple, List, Union
 
 # -------------------------------------------------- #
@@ -516,3 +517,46 @@ def plot2D_entropysurfaceplot(df: pd.DataFrame,
     axis.set_ylabel(var2)
     
 
+
+def plot3D_surface_volume_landscape(df, pdf, show_surfaces=False):
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Volume(
+        x=df.to_numpy()[:,0],
+        y=df.to_numpy()[:,1],
+        z=df.to_numpy()[:,2],
+        value=pdf[:,1],
+        isomin=0.0,
+        isomax=1.0,
+        opacity=1.0, # needs to be small to see through all surfaces
+        opacityscale=[[0.0, 0.5], [0.40, 0.3], [0.45, 0.1], [0.50, 0.0], [0.55, 0.1], [0.6, 0.3], [1., 1.]],
+        surface_count=11, # needs to be a large number for good volume rendering
+        colorscale='RdBu',
+        showscale=False,
+        # caps= dict(x_show=True, y_show=True, z_show=True, x_fill=1),
+        ))
+
+    if show_surfaces:
+        fig.add_trace(go.Isosurface(
+            x=df.to_numpy()[:,0],
+            y=df.to_numpy()[:,1],
+            z=df.to_numpy()[:,2],
+            value=pdf[:,1],
+            isomin=0.0,
+            isomax=1.0,
+            colorscale='RdBu',
+            surface_count=11, # number of isosurfaces, 2 by default: only min and max
+            colorbar_nticks=8, # colorbar ticks correspond to isosurface values
+            caps=dict(x_show=False, y_show=False),
+            showscale=False,
+            ))
+
+    fig.update_layout(
+        scene_camera_center=dict(x=0, y=0, z=0),  # Focus on the center
+        margin=dict(t=0, l=0, b=0, r=0),  # Tight margins
+        scene=dict(aspectmode='cube'),  # Equal aspect ratio for centering
+        scene_camera_eye=dict(x=1.6, y=1.4, z=0.075)
+    )
+
+    return fig
