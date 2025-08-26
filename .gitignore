@@ -161,9 +161,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# hide the experiments folder
-#experiments/
-# tmp pythonpath
-#pypath_export_tmp
-#
+# Hide occasional notebooks
 *.ipynb
