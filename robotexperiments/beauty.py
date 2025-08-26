@@ -207,17 +207,17 @@ def plot2D_pdfsurfaceplot(df: pd.DataFrame,
         intersection_screened = list(set(masked_2d_plane_index) & set(screened_points_ndx))
         if len(intersection_screened) > 0:
             axis.scatter(x[intersection_screened], y[intersection_screened], 
-                         s=100,
+                         s=50,
                          c='1.', marker='o', edgecolors='0.', zorder=5)
             axis.scatter(x[intersection_screened], y[intersection_screened], 
-                         s=50,
-                         c='0.', marker='x', edgecolors='0.', zorder=6)
+                         s=25,
+                         c='0.', marker='x', zorder=6)
             
         intersection_newpoints = list(set(masked_2d_plane_index) & set(new_points_ndx))
         if len(intersection_newpoints) > 0:
             axis.scatter(x[intersection_newpoints], y[intersection_newpoints], 
-                         s=100,
-                         c='1.', marker='o', edgecolors='0.', zorder=5)
+                         s=50,
+                         c='1.', marker='o', edgecolors='0.', zorder=6)
     else:
         surface_edges = .0
 
