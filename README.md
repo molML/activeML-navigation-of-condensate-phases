@@ -6,17 +6,13 @@
 <!-- Title-->
 <h1 id="Title">Automated navigation of condensate phase behavior with active machine learning</h1>
 
-**Y.H.A Leurs**<sup>1</sup>, **W. van den Hout**<sup>1</sup>, **A. Gardin**<sup>1</sup>, **J.L.J. van Dongen**, **J.C.M. van Hest**<sup>\*</sup> **Francesca Grisoni**<sup>\*</sup>, **L. Brunsveld**<sup>\*</sup>\
+**Y.H.A Leurs**<sup>1</sup>, **W. van den Hout**<sup>1</sup>, **A. Gardin**<sup>1</sup>, **J.L.J. van Dongen**, **Andoni Rodriguez-Abetxuko**, **Nadia A. Erkamp** **J.C.M. van Hest**<sup>\*</sup> **Francesca Grisoni**<sup>\*</sup>, **L. Brunsveld**<sup>\*</sup>\
 <sup>1</sup>These authors contributed equally to this work.\
 <sup>\*</sup>Corresponding authors: j.c.m.v.hest@tue.nl, f.grisoni@tue.nl, l.brunsveld@tue.nl.
 
-<h2 id="disclaimer">Disclaimer</h2>
-
-_This repo is not the final version an can be subjected to changes._
-
 <!-- Abstract-->
 <h2 id="abstract">Abstract</h2>
-Biomolecular condensates are essential functional cellular structures that form through phase separation of macromolecules such as proteins and RNA. Synthetic condensates have recently gathered great interest as they can be engineered to better understand the formation mechanism of these cellular condensates and serve as cell-mimetic platforms to develop novel therapeutic strategies. The complexity of the biomolecular components and their reciprocal interactions, however, makes precise engineering and systematic characterization of condensate formation a challenging endeavor. While constructing phase diagrams is a systematic approach to gain comprehensive insight into phase separation behavior, it is a time-consuming and labor-intensive process. Here, we present an automated platform for efficiently mapping multi-dimensional phase diagrams of condensates. The automated platform incorporates a pipetting system for sample formulation, and an autonomous confocal microscope for particle property analysis and characterization. Active machine learning – which allows iterative model improvement – is used to learn from previous experiments and steer future experiments towards an efficient exploration of phase boundaries. The versatility of the pipeline is demonstrated by showcasing its ability to rapidly explore the phase behavior of various polypeptides of opposite charge across formulations, producing detailed and reproducible multidimensional phase diagrams. Beyond identifying phase boundaries, the platform also provides information-rich data, enabling quantification of key condensate properties such as particle size, count, and volume fraction – adding functional insights to phase diagrams. This self-driven platform is robust and generalizable, allowing easy extension to any given combination of condensate-forming materials, ultimately providing key insights into their formation and characteristics.
+Biomolecular condensates are essential functional cellular structures that form through phase separation of macromolecules such as proteins and RNA. Synthetic condensates have recently gathered great interest as they can be engineered to better understand the formation mechanism of these cellular condensates and serve as cell-mimetic platforms to develop novel therapeutic strategies. The complexity of the biomolecular components and their reciprocal interactions, however, makes precise engineering and systematic characterization of condensate formation a challenging endeavor. While constructing phase diagrams is a systematic approach to gain comprehensive insight into phase separation behavior, it is a time-consuming and labor-intensive process. Here, we present an automated platform for efficiently mapping multi-dimensional phase diagrams of condensates. The automated platform incorporates a pipetting system for sample formulation, and an autonomous confocal microscope for particle property analysis and characterization. Active machine learning – which allows iterative model improvement – is used to learn from previous experiments and steer future experiments towards an efficient exploration of the binodal. The versatility of the pipeline is demonstrated by showcasing its ability to rapidly explore the phase behavior of various polypeptides of opposite charge across formulations, producing detailed and reproducible multidimensional phase diagrams. Beyond identifying phase boundaries, the platform also quantificaties key condensate properties such as particle size, count, and volume fraction – adding functional insights to phase diagrams. This self-driven platform is robust and generalizable, providing key insights into condensate formation and characteristics.
 
 ![Figure 1](figures/fig1.png)
 
@@ -45,6 +41,6 @@ The installation requires another custom python package, stated in the `environm
 You can currently cite our preprint:
 
 Automated navigation of condensate phase behavior with active machine learning.\
-_Yannick Leurs, Willem van den Hout, Andrea Gardin, Joost van Dongen, Jan van Hest, Francesca Grisoni, Luc Brunsveld_\
+_Yannick Leurs, Willem van den Hout, Andrea Gardin, Joost van Dongen, Andoni Rodriguez-Abetxuko, Nadia A. Erkamp, Jan van Hest, Francesca Grisoni, Luc Brunsveld_\
 ChemRxiv, 04 December, 2024.
 DOI: https://doi.org/10.26434/chemrxiv-2024-frnj3

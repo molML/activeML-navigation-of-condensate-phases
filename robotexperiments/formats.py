@@ -1,4 +1,9 @@
-#!
+# -------------------------------------------------- #
+# Collection of pahts to keep track and 
+# setup the experiments
+#
+# -------------------------------------------------- #
+
 import os
 
 MASTER_FILE_NAME_FORMAT = 'master_file_version_insilico_{}.csv'
