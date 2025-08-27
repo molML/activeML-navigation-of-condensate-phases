@@ -43,7 +43,6 @@ if __name__ == "__main__":
     # sincle cycle
     if isinstance(cycles, int):
 
-        fig, ax = beauty.get_axes(1,1)
 
         pdf_tmp = np.load(exp_folder+pdf_file_template.format(cycles, cycles))
 
@@ -53,23 +52,38 @@ if __name__ == "__main__":
         )
         new_points_ndx = np.loadtxt(exp_folder+new_points_ndx_format.format(cycles,cycles))
 
+        fig, ax = beauty.get_axes(1,1)
         beauty.plot2D_pdfsurfaceplot(
             df=exp_df,
             pdf=pdf_tmp,
             var1=exp_variables[1],
             var2=exp_variables[0],
             axis=ax,
-            constant_var=None,
             screened_points_ndx=list(screened_points_ndx),
             new_points_ndx=list(new_points_ndx),
             show_points=True,
         )
         fig.tight_layout()
-        fig.savefig(experimentID+f'_PDF_cycle{cycles}.png')
+        fig.savefig('./generated_plots/'+experimentID+f'_PDF_cycle{cycles}.png')
+
+        fig1, ax1 = beauty.get_axes(1,1)
+        beauty.plot2D_entropysurfaceplot(
+            df=exp_df,
+            pdf=pdf_tmp,
+            var1=exp_variables[1],
+            var2=exp_variables[0],
+            axis=ax1,
+            screened_points_ndx=list(screened_points_ndx),
+            new_points_ndx=list(new_points_ndx),
+            show_points=True,
+        )
+        fig1.tight_layout()
+        fig1.savefig('./generated_plots/'+experimentID+f'_ENTROPY_cycle{cycles}.png')
 
     elif isinstance(cycles, np.ndarray):
 
         fig, ax = beauty.get_axes(len(cycles), 3)
+        fig1, ax1 = beauty.get_axes(len(cycles), 3)
 
         for c in cycles:
 
@@ -90,10 +104,24 @@ if __name__ == "__main__":
                 var1=exp_variables[1],
                 var2=exp_variables[0],
                 axis=ax[c],
-                constant_var=None,
                 screened_points_ndx=list(screened_points_ndx),
                 new_points_ndx=list(new_points_ndx),
                 show_points=True,
             )
+
+            beauty.plot2D_entropysurfaceplot(
+                df=exp_df,
+                pdf=pdf_tmp,
+                var1=exp_variables[1],
+                var2=exp_variables[0],
+                axis=ax1[c],
+                screened_points_ndx=list(screened_points_ndx),
+                new_points_ndx=list(new_points_ndx),
+                show_points=True,
+            )
+
         fig.tight_layout()
-        fig.savefig(experimentID+'_PDF.png')
+        fig.savefig('./generated_plots/'+experimentID+'_PDF.png')
+        fig1.tight_layout()
+        fig1.savefig('./generated_plots/'+experimentID+'_ENTROPY.png')
+

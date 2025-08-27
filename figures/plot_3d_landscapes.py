@@ -41,7 +41,7 @@ if __name__ == "__main__":
             show_surfaces=True
         )
 
-        fig.write_image(experimentID+f'_PDF_cycle{cycles}.pdf', scale=2)
+        fig.write_image('./generated_plots/'+experimentID+f'_PDF_cycle{cycles}.pdf', scale=2)
 
     elif isinstance(cycles, np.ndarray):
 
@@ -56,4 +56,4 @@ if __name__ == "__main__":
                 pdf=pdf_tmp
             )
 
-            fig.write_image(experimentID+f'_PDF_cycle{c_tmp}.pdf', scale=2)
+            fig.write_image('./generated_plots/'+experimentID+f'_PDF_cycle{c_tmp}.pdf', scale=2)
