@@ -141,4 +141,4 @@ if __name__ == "__main__":
         y_proba
     )
 
-    plot_ground_truth(df, dataset_path, args.screened_var)
+    # plot_ground_truth(df, dataset_path, args.screened_var)
