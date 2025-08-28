@@ -1,8 +1,8 @@
 # Experiments
 
-This folder is intended for the storing of the outputs of the active machine learning worflow as described in the main [paper](https://doi.org/10.26434/chemrxiv-2024-frnj3), and for the showcase of two simulated experiments (*under construction*).
+This folder is intended for the storing of all the outputs of the active machine learning worflow as described in the main [paper](https://doi.org/10.26434/chemrxiv-2024-frnj3).
 
-## Folder organization:
+## General folder organization:
 
     1.experimentID/
     ├── cycles/
@@ -51,6 +51,7 @@ Other folders serves different purposes:
 -   `ground_truth/`, contains the ground truths dataframes collected from the different experiments.
 -   `ManualLab_experiments/`, contains some comparison of our AL method with non-ML strategies.
 -   `overfitting_tests/`, contains overfitting tests run on the current setup.
+-   `particle_features_data/`, contains the particles feature data extracted from the microscope.
 -   `RoboLabSynt_2D_A`, contains a complete in-silico test using a _dummy_ phase diagram that contains multiple separate pahses.
 
 
