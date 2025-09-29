@@ -1,7 +1,7 @@
 ![repo version](https://img.shields.io/badge/Version-v.%201.1.0-green)
 ![python version](https://img.shields.io/badge/python-3.9_|_3.10_|_3.11|_3.12-blue)
 [![Static Badge](https://img.shields.io/badge/ChemRxiv-10.26434/chemrxiv--2023-sqb5c)](https://doi.org/10.26434/chemrxiv-2024-frnj3)
-[![Static Badge](https://img.shields.io/badge/Zenodo-10.5281/zenodo.16949697-54af7d)](https:///zenodo.org/records/16949697)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17223127.svg)](https://doi.org/10.5281/zenodo.17223127)
 
 <!-- Title-->
 <h1 id="Title">Automated navigation of condensate phase behavior with active machine learning</h1>
